@@ -41,7 +41,7 @@ export const Main = () => {
               className="object-cover"
               alt="Main Illustration"
               loading="eager"
-              placeholder="blur"
+              //placeholder="blur"
             />
           </div>
 
