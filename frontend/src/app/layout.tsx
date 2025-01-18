@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class">
-          <div className= "min-h-screen">
+          <div className= "min-h-screen grid">
           <div>{children}</div>
           <Footer />
           </div>

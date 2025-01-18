@@ -5,7 +5,7 @@ import mainImg from "../../public/img/main.png";
 export const Main = () => {
   return (
     <>
-      <Container className="flex flex-wrap max-w-7xl">
+      <Container className="flex flex-col-reverse lg:flex-wrap  lg:flex-row max-w-7xl">
         {/* Left section (Text and button) */}
         <div className="flex items-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
