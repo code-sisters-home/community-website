@@ -1,8 +1,6 @@
 
 # Фронтенд
-
-
-
+![Screenshot](https://github.com/user-attachments/assets/a5cac725-4716-45d8-99c2-29e849ea4b12)
 ## Как запустить
 
 
