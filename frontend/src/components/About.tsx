@@ -12,7 +12,7 @@ export const About = () => {
             <h1 className="caption">
               <span className="purple">O нас</span>
             </h1>
-            <p className="basic mr-20 my-6 bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
+            <p className="basic mr-20 my-6 widget">
               <h1 className="text-xl font-semibold pt-3 pb-3 ">Как всё начиналось</h1>
               Сообщество code_sisters появилось в 2016 как группа в Вконтакте для gamedev-разработчиц. Тогда группа называлась "Gamedev ♀ Girls Only".
               Почти сразу мы создали закрытый чат в телеграме и стало понятно, что нет смысла ограничиваться геймдевом, поэтому проголосовали за другое название - Codegirls.

@@ -42,4 +42,12 @@
   .button {
     @apply background-purple text-center text-white rounded-md;/*flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row;*/
   }
+  .widget
+  {
+    @apply  bg-gray-200 px-14 rounded-2xl py-14 dark:bg-stromboli-800;
+  }
+  .widget-hover
+  {
+    @apply  hover:bg-gray-100 dark:hover:bg-stromboli-900;
+  }
 }
