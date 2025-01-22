@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Container } from "@/components/Container";
 import { Main } from "@/components/Main";
 import { Faq } from "@/components/Faq";
+import { About } from "@/components/About";
 import {Navbar} from "@/components/Navbar";
 
 import { benefitOne, benefitTwo } from "@/components/data";
@@ -23,6 +24,7 @@ export default function Home() {
         {/* В зависимости от выбранной страницы рендерим соответствующий компонент */}
       {activePage === 'home' && <Main />} 
       {activePage === 'faq' && <Faq />}
+      {activePage === 'about' && <About />}
 {/*
       <SectionTitle
         preTitle="Nextly Benefits"
