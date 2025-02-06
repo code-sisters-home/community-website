@@ -11,7 +11,7 @@ export function Footer() {
         <div className="flex-grow" />
         
         {/* Footer content */}
-        <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
+        <div className="my-5 text-sm text-center text-gray-600 dark:text-gray-400">
           Copyright © 2016 - {new Date().getFullYear()}. Made with ♥
         </div>
       </Container>
