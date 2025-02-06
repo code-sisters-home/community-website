@@ -9,7 +9,10 @@ const ThemeChanger = () => {
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return null;
+  if (!mounted) return (
+    // When mounted on client, now we can reserve the space for icon
+    <div className='w-5'></div>
+  );
 
   return (
     <div className="flex items-center order-last ">
