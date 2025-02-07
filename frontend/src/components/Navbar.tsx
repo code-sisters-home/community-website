@@ -27,7 +27,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
 
   return (
     <div className="w-full">
-      <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-1">
+      <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between">
         {/* Logo  */}
         <Link href="/">
           <span className="flex items-center space-x-2 text-2xl font-medium dark:text-gray-100">
