@@ -1,7 +1,7 @@
 {
-  "name": "nextly-template",
-  "version": "2.0.0",
-  "description": "Nextly Landing Page Template",
+  "name": "сommunity-website",
+  "version": "1.0.0",
+  "description": "Community Website",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/web3templates/nextly-template"
+    "url": "https://github.com/code-sisters-home/community-website"
   },
   "keywords": [
     "nextjs",
     "tailwindcss",
     "free"
   ],
-  "author": "Surjith S M",
+  "author": "Sister",
   "license": "ISC",
   "dependencies": {
     "@headlessui/react": "^2.0.3",
@@ -30,7 +30,8 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.51.4"
+    "react-hook-form": "^7.51.4",
+    "react-markdown": "^9.0.3"
   },
   "devDependencies": {
     "@types/node": "^20",

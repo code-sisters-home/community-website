@@ -2,7 +2,6 @@
 import { FC } from 'react';
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
-import Image from "next/image"
 import { Disclosure } from "@headlessui/react";
 
 interface NavbarProps {
