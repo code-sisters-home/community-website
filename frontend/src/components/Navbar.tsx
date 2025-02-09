@@ -2,9 +2,8 @@
 import { FC } from 'react';
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
-import Image from "next/image"
 import { Disclosure } from "@headlessui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 interface NavbarProps {
   onNavClick: (page: string) => void;
@@ -19,17 +18,13 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
     { label: "Мерч", value: "merch", external: true, link: "https://codesisters.vsemaykishop.ru/" }, // добавляем внешний сайт для "Мерч"
   ];
 
-  let isNavListActive = true
-  function onNavActiveClick() {
-    console.log('pupuk')
-    isNavListActive = !isNavListActive
-  }
-  const navListStyles = `
-    ${isNavListActive ? 'col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex' : ''}
-    col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex
-  `
-  // const navListHiddenStyles = "col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex"
+  const [isNavListActive, setOpen] = useState(false)
 
+  function onNavActiveClick() {
+    setOpen(!isNavListActive)
+  }
+
+  const navListStyles = isNavListActive ? 'col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex' : 'hidden'
   const navLinkStyles = "inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:green focus:green";
 
   const navLinkHoverStyles = `
@@ -133,7 +128,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
           </Disclosure>
         </div>
 
-        <ul className={`${navListStyles} md:block lg:hidden`}>
+        <ul className={`${navListStyles} lg:hidden`}>
               {navigation.map((menu, index) => (
                 <li className="mr-3 nav__item" key={index}>
                   {/* Если это внешний линк, заменяем на <a> */}
