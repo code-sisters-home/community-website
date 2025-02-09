@@ -13,8 +13,8 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
   const navigation = [
     { label: "Главная", value: "home" },
     { label: "О нас", value: "about" },
-    //{ label: "Блог", value: "blog" },
     { label: "ЧаВо", value: "faq" },
+    //{ label: "Блог", value: "blog" },
     { label: "Мерч", value: "merch", external: true, link: "https://codesisters.vsemaykishop.ru/" }, // добавляем внешний сайт для "Мерч"
   ];
 

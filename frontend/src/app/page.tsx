@@ -4,6 +4,7 @@ import { Container } from "@/components/Container";
 import { Main } from "@/components/Main";
 import { Faq } from "@/components/Faq";
 import { About } from "@/components/About";
+import { Blog } from "@/components/Blog";
 import {Navbar} from "@/components/Navbar";
 
 import { benefitOne, benefitTwo } from "@/components/data";
@@ -25,6 +26,7 @@ export default function Home() {
       {activePage === 'home' && <Main />} 
       {activePage === 'faq' && <Faq />}
       {activePage === 'about' && <About />}
+      {activePage === 'blog' && <Blog />}
 {/*
       <SectionTitle
         preTitle="Nextly Benefits"
