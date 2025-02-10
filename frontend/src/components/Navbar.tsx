@@ -3,6 +3,7 @@ import { FC } from 'react';
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
+import React, { useState } from "react";
 
 interface NavbarProps {
   onNavClick: (page: string) => void;
@@ -17,16 +18,24 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
     { label: "Мерч", value: "merch", external: true, link: "https://codesisters.vsemaykishop.ru/" }, // добавляем внешний сайт для "Мерч"
   ];
 
+  const [isNavListActive, setOpen] = useState(false)
+
+  function onNavActiveClick() {
+    setOpen(!isNavListActive)
+  }
+
+  const navListStyles = isNavListActive ? 'col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex' : 'hidden'
   const navLinkStyles = "inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:green focus:green";
 
   const navLinkHoverStyles = `
-    ${navLinkStyles} 
+    ${navLinkStyles}
     hover:underline
   `;
 
   return (
     <div className="w-full">
-      <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between">
+      {/* <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-1"> */}
+      <nav className="container relative grid grid-rows-(max-content) grid-cols-2 items-center justify-between p-8 mx-auto lg:justify-between xl:px-1" >
         {/* Logo  */}
         <Link href="/">
           <span className="flex items-center space-x-2 text-2xl font-medium dark:text-gray-100">
@@ -80,6 +89,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
             {({ open }) => (
               <>
                 <Disclosure.Button
+                  onClick={() => onNavActiveClick()}
                   aria-label="Toggle Menu"
                   className="px-2 py-1 text-gray-500 rounded-md lg:hidden">
                   <svg
@@ -102,7 +112,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                   </svg>
                 </Disclosure.Button>
 
-                <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden ">
+                {/* <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden ">
                   {navigation.map((item, index) => (
                     <button
                       key={index}
@@ -112,11 +122,36 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                       {item.label}
                     </button>
                   ))}
-                </Disclosure.Panel>
+                </Disclosure.Panel> */}
               </>
             )}
           </Disclosure>
         </div>
+
+        <ul className={`${navListStyles} lg:hidden`}>
+              {navigation.map((menu, index) => (
+                <li className="mr-3 nav__item" key={index}>
+                  {/* Если это внешний линк, заменяем на <a> */}
+                  {menu.external ? (
+                    <a
+                      href={menu.link}
+                      target="_blank"
+                      rel="noopener noreferrer" // открытие в новой вкладке
+                      className={navLinkHoverStyles}
+                    >
+                      {menu.label}
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => onNavClick(menu.value)} // Вызов родительской функции для изменения activePage
+                      className={navLinkHoverStyles}
+                    >
+                      {menu.label}
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
       </nav>
     </div>
   );
