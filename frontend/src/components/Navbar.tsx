@@ -35,7 +35,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
   return (
     <div className="w-full top-0 sticky z-<5> bg-gray-300 dark:bg-stromboli-950">
       {/* <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-1"> */}
-      <nav className="container relative grid grid-rows-(max-content) grid-cols-2 items-center justify-between p-8 mx-auto lg:justify-between xl:px-1">
+      <nav className="container relative grid grid-rows-(max-content) grid-cols-2 items-center justify-between p-8 mx-auto lg:justify-between">
         {/* Logo  */}
         <Link href="/">
           <span className="flex items-center space-x-2 text-2xl font-medium dark:text-gray-100">
