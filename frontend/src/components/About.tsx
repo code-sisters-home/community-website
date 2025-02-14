@@ -34,15 +34,13 @@ export const About = () => {
           </h1>
           <div className="basic mr-20 my-6 widget">
             {/* Image in the top-right corner */}
-            <div className="relative">
               <Image
                 src={adaImg}
                 alt="Ada Image"
                 width="500"
                 height="500"
-                className="rounded-full w-full lg:w-1/3 object-cover lg:float-right ml-3 mb-3" // mr-20 mt-20 - Ensure image floats and has some margin
+                className="rounded-full w-full lg:w-1/3 object-cover lg:float-right ml-3 mb-" // mr-20 mt-20 - Ensure image floats and has some margin
               />
-            </div>
             <Markdown content={aboutContent} />
           </div>
         </div>
