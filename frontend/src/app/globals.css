@@ -15,6 +15,9 @@
 }
 
 @layer components {
+  .background {
+    @apply  bg-gray-300 dark:bg-stromboli-950;
+  }
   .green {
     @apply  text-stromboli-700  dark:text-stromboli-600;
   }
@@ -34,7 +37,7 @@
     @apply  border-purpleheart-800  dark:border-purpleheart-900;
   }
   .caption {
-    @apply green font-ubuntu text-4xl font-bold/*text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight*/ /*dark:text-white*/;
+    @apply green font-ubuntu text-3xl md:text-4xl font-bold text-center my-8/*text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight*/ /*dark:text-white*/;
   }
   .basic {
     @apply font-stock py-5 text-base leading-normal lg:text-lg xl:text-xl dark:text-gray-300;
@@ -44,7 +47,7 @@
   }
   .widget
   {
-    @apply  bg-gray-200 px-14 rounded-2xl py-14 dark:bg-stromboli-800;
+    @apply  bg-gray-200 p-8 lg:p-14 rounded-2xl dark:bg-stromboli-800;
   }
   .widget-hover
   {

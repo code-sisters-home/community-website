@@ -7,7 +7,7 @@ import { ChevronUpIcon } from "@heroicons/react/24/solid";
 export const Faq = () => {
   return (
     <Container>
-      <h1 className="caption text-center my-10">
+      <h1 className="caption">
         <span className="purple">Частые </span>вопросы 
       </h1>
       <Container className="!p-0">

@@ -7,8 +7,6 @@ import { About } from "@/components/About";
 import { Blog } from "@/components/Blog";
 import {Navbar} from "@/components/Navbar";
 
-import { benefitOne, benefitTwo } from "@/components/data";
-
 export default function Home() {
   const [activePage, setActivePage] = useState<string>('home'); // Состояние для текущей страницы
   

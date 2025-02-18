@@ -29,17 +29,17 @@ export const About = () => {
       {/* Left section (Text) */}
       <div className="flex items-center w-full">
         <div className="max-w-7xl">
-          <h1 className="caption text-center">
+          <h1 className="caption">
             <span className="purple">O нас</span>
           </h1>
-          <div className="basic mr-20 my-6 widget">
+          <div className="basic my-6 widget">
             {/* Image in the top-right corner */}
               <Image
                 src={adaImg}
                 alt="Ada Image"
                 width="500"
                 height="500"
-                className="rounded-full w-full lg:w-1/3 object-cover lg:float-right ml-3 mb-" // mr-20 mt-20 - Ensure image floats and has some margin
+                className="rounded-full w-full lg:w-1/3 object-cover p-6 lg:float-right" // mr-20 mt-20 - Ensure image floats and has some margin
               />
             <Markdown content={aboutContent} />
           </div>

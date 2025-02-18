@@ -9,11 +9,11 @@ export const Main = () => {
         {/* Left section (Text and button) */}
         <div className="flex items-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
-            <h1 className="caption">
+            <h1 className="caption lg:text-left my-0">
               <span className="purple">Перепиши </span>
               культурный код
             </h1>
-            <p className="basic mr-20 my-6">
+            <p className="basic lg:mr-20 my-6">
               Сообщество code_sisters объединяет женщин в IT независимо от уровня и стека. Если тебя интересует индустрия, ты хочешь вдохновиться замечательными специалистками, задать вопрос в комфортной атмосфере или, наоборот, помочь кому-то с полночным неработающим кодом, ждем тебя!
             </p>
 
@@ -31,7 +31,7 @@ export const Main = () => {
         </div>
 
         {/* Right section (Image and social media links) */}
-        <div className="flex items-center w-full lg:w-1/2 justify-between">
+        <div className="flex items-center w-full lg:w-1/2 justify-between my-8 lg:my-0">
           {/* Image */}
           <div className="">
             <Image
@@ -45,7 +45,7 @@ export const Main = () => {
           </div>
 
           {/* Social media links */}
-          <div className="flex flex-col items-center green ml-8 justify-end">
+          <div className="flex flex-col items-center green lg:ml-8 justify-end">
             {/* "Subscribe" text rotated */}
             <div className="transform rotate-90 text-base mb-8">Подпишись</div>
 

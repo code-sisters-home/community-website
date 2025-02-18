@@ -76,7 +76,7 @@ export const Blog = () => {
             <span className="purple">Блог</span>
           </h1>
           {posts.map((post, index) => (
-            <div key={index} className="basic mr-20 my-6 widget">
+            <div key={index} className="basic my-6 widget">
               <h1 className="text-3xl">{post.data.title}</h1>
               <p className="text-xl my-6 text-gray-700 dark:text-gray-400">
                 {post.data.author} 🞄 {new Date(post.data.date).toLocaleDateString('ru-RU')}
