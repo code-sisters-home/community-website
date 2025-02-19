@@ -1,6 +1,7 @@
 {
-  "title": "Принцип неопределенности Гейзенберга",
+  "title": "Как пропатчить KDE на FreeBSD",
   "author": "Тамара Ковалевская",
   "date": "2019-07-10T16:04:44.000Z",
-  "hero_image": "/blog/post-1.jpg"
+  "hero_image": "/blog/post-1.jpg",
+  "tags": ["KDE", "FreeBSD", "патчинг", "настройка"]
 }

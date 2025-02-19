@@ -1,0 +1,39 @@
+Для установки Docker на CentOS 8 необходимо добавить репозиторий Docker.
+
+#### Шаг 1: Добавление репозитория Docker
+
+Для этого выполните команду:
+
+`sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
+
+#### Шаг 2: Установка Docker
+
+После этого обновите индекс пакетов и установите Docker с помощью команды:
+
+`sudo dnf install docker-ce docker-ce-cli containerd.io`
+
+#### Шаг 3: Запуск и настройка автозагрузки
+
+После завершения установки запустите службу Docker с помощью команды:
+
+`sudo systemctl start docker`
+
+и добавьте Docker в автозагрузку с командой:
+
+`sudo systemctl enable docker`
+
+Для проверки, что Docker работает корректно, выполните команду:
+
+`sudo docker --version`
+
+Если всё настроено правильно, вы увидите версию установленного Docker.
+
+Если вы хотите запускать Docker без прав суперпользователя, добавьте вашего пользователя в группу Docker с помощью команды:
+
+`sudo usermod -aG docker your_user_name`
+
+После этого перезагрузите систему или выполните команду:
+
+`newgrp docker`
+
+Теперь вы можете запускать Docker-контейнеры без использования `sudo`.

@@ -1,6 +1,7 @@
 {
-  "title": "Запутанность и явление квантовой телепортации",
+  "title": "Как настроить сервер PostgreSQL на Ubuntu",
   "author": "Софья Другина",
   "date": "2021-02-01T00:00:00.000Z",
-  "hero_image": "/blog/post-2.jpg"
+  "hero_image": "",
+  "tags": ["PostgreSQL", "Ubuntu", "сервер", "настройка"]
 }

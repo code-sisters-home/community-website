@@ -12,6 +12,7 @@ export const Blog = () => {
       author: string;
       date: string;
       hero_image?: string;
+      tags?: string[];
     };
   }
 
@@ -58,14 +59,14 @@ export const Blog = () => {
     });
   };
 
-  const getFirstSentence = (content: string) => {
-	let str = content;//renderToString(content);
-    if (typeof str === 'string') {
-      const sentences = str.split('. ');
-	  console.log("found string");
-      return sentences[0] + '.';
-    }
-    return str;
+  const getPreview = (content: string) => {
+    const sentences = content.split(/(?<=\.)\s+/);
+    const lines = content.split('\n');
+
+    const previewSentences = sentences.slice(0, 7).join(' ');
+    const previewLines = lines.slice(0, 7).join('\n');
+
+    return previewSentences.length <= previewLines.length ? previewSentences : previewLines;
   };
 
   return (
@@ -78,11 +79,16 @@ export const Blog = () => {
           {posts.map((post, index) => (
             <div key={index} className="basic my-6 widget">
               <h1 className="text-3xl">{post.data.title}</h1>
-              <p className="text-xl my-6 text-gray-700 dark:text-gray-400">
+              <p className="text-xl mt-5 text-gray-700 dark:text-gray-400">
                 {post.data.author} 🞄 {new Date(post.data.date).toLocaleDateString('ru-RU')}
               </p>
-              {post.data.hero_image && <img src={post.data.hero_image} alt={post.data.title} />}
-              <Markdown content={expandedPosts.has(index) ? post.content : getFirstSentence(post.content)} />
+              {post.data.tags && (
+                <p className="text-base my-4 blog-tags">
+                  {post.data.tags.join(', ')}
+                </p>
+              )}
+              {post.data.hero_image && <img width="800" className="max-w-full lg:max-w-3/4" src={post.data.hero_image} alt={post.data.title} />}
+              <Markdown content={expandedPosts.has(index) ? post.content : getPreview(post.content)} />
               <button onClick={() => toggleExpand(index)} className=" text-gray-700 dark:text-gray-400 hover:underline">
                 {expandedPosts.has(index) ? 'Свернуть' : 'Читать дальше'}
               </button>

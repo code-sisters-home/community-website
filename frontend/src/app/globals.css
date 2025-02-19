@@ -46,6 +46,9 @@
   .purple {
     @apply  text-purpleheart-800  dark:text-purpleheart-700;
   }
+  .blog-tags {
+    @apply  text-purpleheart-800  dark:text-purpleheart-500;
+  }
   .background-purple {
     @apply  bg-purpleheart-800  dark:bg-purpleheart-900;
   }
@@ -68,5 +71,11 @@
   .widget-hover
   {
     @apply  hover:bg-gray-100 dark:hover:bg-stromboli-900;
+  }
+  .code-block {
+    @apply bg-gray-100 text-black dark:bg-gray-800 dark:text-white p-2 rounded;
+  }
+  .pre-block {
+    @apply bg-gray-100 text-black dark:bg-gray-800 dark:text-white p-4 rounded overflow-x-auto;
   }
 }

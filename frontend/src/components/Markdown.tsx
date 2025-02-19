@@ -6,12 +6,21 @@ const components = {
     <h1 style={{ fontSize: '1.5em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
   ),
   h2: ({ node, ...props }: any) => (
-    <h2 style={{ fontSize: '1.2em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
+    <h2 style={{ fontSize: '1.3em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
   ),
   h3: ({ node, ...props }: any) => (
-    <h3 style={{ fontSize: '1.1em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
+    <h3 style={{ fontSize: '1.2em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
   ),
-  p: ({ node, ...props }: any) => (
+  h4: ({ node, ...props }: any) => (
+    <h4 style={{ fontSize: '1.1em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
+  ),
+  h5: ({ node, ...props }: any) => (
+    <h5 style={{ fontSize: '1.05em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
+  ),
+  h6: ({ node, ...props }: any) => (
+    <h6 style={{ fontSize: '1em', fontWeight: 'semibold', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
+  ),
+    p: ({ node, ...props }: any) => (
     <p style={{ fontSize: '1em', marginBottom: '0.5em', marginTop: '0.5em' }} {...props} />
   ),
   a: ({ node, ...props }: any) => (
@@ -30,10 +39,10 @@ const components = {
     <blockquote style={{ borderLeft: '4px solid gray', paddingLeft: '1em', color: 'gray' }} {...props} />
   ),
   code: ({ node, ...props }: any) => (
-    <code style={{ backgroundColor: '#f5f5f5', padding: '2px 4px', borderRadius: '4px' }} {...props} />
+    <code className="code-block" {...props} />
   ),
   pre: ({ node, ...props }: any) => (
-    <pre style={{ backgroundColor: '#f5f5f5', padding: '10px', borderRadius: '4px', overflowX: 'auto' }} {...props} />
+    <pre className="pre-block" {...props} />
   ),
   img: ({ node, ...props }: any) => (
     <img style={{ maxWidth: '100%' }} {...props} />
