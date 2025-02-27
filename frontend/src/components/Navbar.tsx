@@ -5,13 +5,9 @@ import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import React, { useState } from "react";
 
-interface NavbarProps {
-  onNavClick: (page: string) => void;
-}
-
-export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
+export const Navbar: FC = () => {
   const navigation = [
-    { label: "Главная", value: "home" },
+    { label: "Главная", value: "/" },
     { label: "О нас", value: "about" },
     { label: "ЧаВо", value: "faq" },
     //{ label: "Блог", value: "blog" },
@@ -62,12 +58,12 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                       {menu.label}
                     </a>
                   ) : (
+                    <Link href={menu.value}>
                     <button
-                      onClick={() => onNavClick(menu.value)} // Вызов родительской функции для изменения activePage
                       className={navLinkHoverStyles}
                     >
                       {menu.label}
-                    </button>
+                    </button></Link>
                   )}
                 </li>
               ))}
@@ -142,12 +138,13 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                       {menu.label}
                     </a>
                   ) : (
+                    <Link href={menu.value}>
                     <button
-                      onClick={() => onNavClick(menu.value)} // Вызов родительской функции для изменения activePage
                       className={navLinkHoverStyles}
                     >
                       {menu.label}
                     </button>
+                    </Link>
                   )}
                 </li>
               ))}

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";

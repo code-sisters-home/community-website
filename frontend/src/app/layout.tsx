@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-
+import {Navbar} from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 
@@ -23,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class">
           <div className= "min-h-screen grid">
+           <Navbar />
           <div>{children}</div>
           <Footer />
           </div>

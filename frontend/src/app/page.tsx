@@ -2,29 +2,19 @@
 import { useState } from 'react';
 import { Container } from "@/components/Container";
 import { Main } from "@/components/Main";
-import { Faq } from "@/components/Faq";
-import { About } from "@/components/About";
 import { Blog } from "@/components/Blog";
-import {Navbar} from "@/components/Navbar";
+// import {Navbar} from "@/components/Navbar";
 
 export default function Home() {
   const [activePage, setActivePage] = useState<string>('home'); // Состояние для текущей страницы
-  
-    const handleNavClick = (page: string) => {
-      setActivePage(page); // Обновляем активную страницу
-    };
 
   return (
     <div>
       {/* Навигация */}
-      <Navbar onNavClick={handleNavClick} /> 
+      {/* <Navbar/> */}
 
-    <Container>
-        {/* В зависимости от выбранной страницы рендерим соответствующий компонент */}
-      {activePage === 'home' && <Main />} 
-      {activePage === 'faq' && <Faq />}
-      {activePage === 'about' && <About />}
-      {activePage === 'blog' && <Blog />}
+    {/* <Container> */}
+     <Main />
 {/*
       <SectionTitle
         preTitle="Nextly Benefits"
@@ -59,7 +49,7 @@ export default function Home() {
 
       <Testimonials />
       <Cta />*/}
-    </Container>
+    {/* </Container> */}
     </div>
   );
 }
