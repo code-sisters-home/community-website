@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "code_sisters",
-  description: "",
+  description: "Сообщество для женщин в IT всех уровней и стеков. Вдохновляйтесь, общайтесь и помогайте друг другу!",
 };
 
 export default function RootLayout({
