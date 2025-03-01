@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 
@@ -17,7 +17,25 @@ export const BlogGallery = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [postsPerPage, setPostsPerPage] = useState<number>(3); // Default to 3 posts per page
-  
+
+  // Реф для контейнера, который будет отслеживать его ширину
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Функция для обновления количества постов на основе ширины контейнера
+  const updatePostsPerPage = () => {
+    if (containerRef.current) {
+      const width = containerRef.current.offsetWidth; // Получаем ширину контейнера
+
+      if (width >= 1024) { // xl
+        setPostsPerPage(3); // 3 поста на странице
+      } else if (width >= 640) { // md
+        setPostsPerPage(2); // 2 поста на странице
+      } else { // sm
+        setPostsPerPage(1); // 1 пост на странице
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -44,26 +62,36 @@ export const BlogGallery = () => {
     };
 
     fetchPosts();
+
+    // Обновляем количество постов на странице при изменении размера контейнера
+    window.addEventListener('resize', updatePostsPerPage);
+    updatePostsPerPage(); // Устанавливаем начальное значение
+
+    return () => window.removeEventListener('resize', updatePostsPerPage);
   }, []);
 
+  // Функция для переключения на следующий пост
   const nextPost = () => {
-    setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, posts.length - 1));
+    setCurrentIndex((prevIndex) => Math.min(prevIndex + postsPerPage, posts.length - postsPerPage));
   };
 
+  // Функция для переключения на предыдущий пост
   const prevPost = () => {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - postsPerPage, 0));
   };
 
   return (
-    <Container className="flex flex-col  max-w-7xl">
+    <Container className="flex flex-col max-w-7xl">
       <h1 className="caption lg:text-left my-0">
         <span className="purple">Посты в </span>
         блоге
       </h1>
-      <div className="relative w-full overflow-hidden">
-        <div className="flex transition-transform duration-300" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+      <div className="relative w-full overflow-hidden" ref={containerRef}>
+        <div className="flex transition-transform duration-300" style={{ transform: `translateX(-${currentIndex * (100 / postsPerPage)}%)` }}>
           {posts.map((post, index) => (
-            <div key={index} className="flex-shrink-0 w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/3 p-4">
+            <div 
+              key={index} 
+              className={`flex-shrink-0 w-full ${postsPerPage === 1 ? 'sm:w-full' : postsPerPage === 2 ? 'sm:w-1/2' : 'sm:w-1/3'} p-4`}>
               <div className="basic text-lg widget p-8 h-full flex flex-col">
                 <h2 className="text-2xl line-clamp-2">{post.data.title}</h2>
                 {post.data.tags && (
@@ -71,7 +99,7 @@ export const BlogGallery = () => {
                     {post.data.tags.join(', ')}
                   </p>
                 )}
-				<div className="flex-grow overflow-hidden" style={{ height: '300px' }}>
+                <div className="flex-grow overflow-hidden" style={{ height: '300px' }}>
                   {post.data.hero_image ? (
                     <div className="w-full h-2/3 overflow-hidden">
                       <img src={post.data.hero_image} alt={post.data.title} className="" />
