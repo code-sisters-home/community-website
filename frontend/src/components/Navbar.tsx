@@ -5,13 +5,9 @@ import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import React, { useState } from "react";
 
-interface NavbarProps {
-  onNavClick: (page: string) => void;
-}
-
-export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
+export const Navbar: FC = () => {
   const navigation = [
-    { label: "Главная", value: "home" },
+    { label: "Главная", value: "/" },
     { label: "О нас", value: "about" },
     { label: "ЧаВо", value: "faq" },
     //{ label: "Блог", value: "blog" },
@@ -50,7 +46,7 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
           <div className="hidden text-center lg:flex lg:items-center">
             <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
               {navigation.map((menu, index) => (
-                <li className="mr-3 nav__item" key={index}>
+                <li className="mr-3 nav__item w-max" key={index}>
                   {/* Если это внешний линк, заменяем на <a> */}
                   {menu.external ? (
                     <a
@@ -62,12 +58,12 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                       {menu.label}
                     </a>
                   ) : (
+                    <Link href={menu.value}>
                     <button
-                      onClick={() => onNavClick(menu.value)} // Вызов родительской функции для изменения activePage
                       className={navLinkHoverStyles}
                     >
                       {menu.label}
-                    </button>
+                    </button></Link>
                   )}
                 </li>
               ))}
@@ -142,12 +138,13 @@ export const Navbar: FC<NavbarProps> = ({ onNavClick }) => {
                       {menu.label}
                     </a>
                   ) : (
+                    <Link href={menu.value}>
                     <button
-                      onClick={() => onNavClick(menu.value)} // Вызов родительской функции для изменения activePage
                       className={navLinkHoverStyles}
                     >
                       {menu.label}
                     </button>
+                    </Link>
                   )}
                 </li>
               ))}
