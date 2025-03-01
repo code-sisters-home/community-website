@@ -1,50 +1,59 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
-import { renderToString } from 'react-dom/server';
+import Link from 'next/link';
 
 export const Blog = () => {
-  interface Post {
-    content: string;
-    data: {
-      title: string;
-      author: string;
-      date: string;
-      hero_image?: string;
-      tags?: string[];
-    };
-  }
+	interface Post {
+		content: string;
+		data: {
+			title: string;
+			author: string;
+			date: string;
+			hero_image?: string;
+			tags?: string[];
+		};
+		slug: string;
+	}
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const res = await fetch('/blog/posts.json'); // Абсолютный путь к JSON файлу
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const filenames = await res.json();
-        console.log('Fetched filenames:', filenames); // Отладочное сообщение
+			try {
+				const res = await fetch('/blog/posts.json');
+				if (!res.ok) {
+					throw new Error(`HTTP error! status: ${res.status}`);
+				}
+				const filenames = await res.json();
+				console.log('Fetched filenames:', filenames); // Проверка на список файлов
 
-        const postComponents = await Promise.all(
-          filenames.map(async (filename: string) => {
-            const [content, metadata] = await Promise.all([
-              fetch(`/blog/${filename}`).then(res => res.text()),
-              fetch(`/blog/${filename.replace('.mdx', '.json')}`).then(res => res.json())
-            ]);
-            return { content, data: metadata };
-          })
-        );
-        setPosts(postComponents);
-      } catch (error) {
-        console.error('Error fetching posts:', error); // Отладочное сообщение
-      }
-    };
+				const postComponents = await Promise.all(
+					filenames.map(async (filename: string) => {
+						console.log('Processing filename:', filename); // Отладка имени файла
+						const [content, metadata] = await Promise.all([
+							fetch(`/blog/${filename}`).then(res => res.text()),
+							fetch(`/blog/${filename.replace('.mdx', '.json')}`).then(res => res.json())
+						]);
 
-    fetchPosts();
+						const slug = filename.replace('.mdx', ''); // Получение slug из имени файла
+						console.log('Generated slug:', slug); // Проверка сгенерированного slug
+
+						return { content, data: metadata, slug }; // Возвращаем объект с правильным slug
+					})
+				);
+
+				setPosts(postComponents);
+			} catch (error) {
+				console.error('Error fetching posts:', error);
+			}
+		};
+
+
+		fetchPosts();
+
   }, []);
 
   const toggleExpand = (index: number) => {
@@ -78,7 +87,9 @@ export const Blog = () => {
           </h1>
           {posts.map((post, index) => (
             <div key={index} className="basic my-6 widget">
-              <h1 className="text-3xl">{post.data.title}</h1>
+              <Link href={`/blog/${post.slug}`} legacyBehavior>
+              <a className="text-3xl">{post.data.title}</a>
+              </Link>
               <p className="text-xl mt-5 text-gray-700 dark:text-gray-400">
                 {post.data.author} 🞄 {new Date(post.data.date).toLocaleDateString('ru-RU')}
               </p>

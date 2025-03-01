@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Container } from "@/components/Container";
 import mainImg from "../../public/img/main.png";
-
+import { BlogGallery } from "@/components/BlogGallery";
 export const Main = () => {
   return (
     <>
@@ -85,7 +85,7 @@ export const Main = () => {
           </div>
         </div>
       </Container>
-
+		<BlogGallery/>
     </>
   );
 }

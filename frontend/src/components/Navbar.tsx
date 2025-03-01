@@ -10,7 +10,7 @@ export const Navbar: FC = () => {
     { label: "Главная", value: "/" },
     { label: "О нас", value: "about" },
     { label: "ЧаВо", value: "faq" },
-    //{ label: "Блог", value: "blog" },
+    { label: "Блог", value: "blog" },
     { label: "Мерч", value: "merch", external: true, link: "https://codesisters.vsemaykishop.ru/" }, // добавляем внешний сайт для "Мерч"
   ];
 
