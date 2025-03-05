@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/Container";
 import mainImg from "../../public/img/main.png";
 import { BlogGallery } from "@/components/BlogGallery";
+import { VideoGallery } from "@/components/VideoGallery";
 export const Main = () => {
   return (
     <>
@@ -86,6 +87,7 @@ export const Main = () => {
         </div>
       </Container>
 		<BlogGallery/>
+    <VideoGallery channelId="UC_JXPJ8Vo-qkV4pn0C7KAQw"/>
     </>
   );
 }

@@ -93,7 +93,7 @@ export const BlogGallery = () => {
 
 	return (
 		<Container className="flex flex-col max-w-7xl">
-			<h1 className="caption lg:text-left my-0">
+			<h1 className="caption lg:text-left mt-0 mb-7">
 				<span className="purple">Посты в </span>
 				блоге
 			</h1>
@@ -105,7 +105,7 @@ export const BlogGallery = () => {
 							<div key={index} className={`flex-shrink-0 w-full ${postsPerPage === 1 ? 'sm:w-full' : postsPerPage === 2 ? 'sm:w-1/2' : 'sm:w-1/3'} p-4`}>
 								<div className="basic text-lg widget p-8 h-full flex flex-col">
 									<Link href={`/blog/${post.slug}`} legacyBehavior>
-										<a className="text-2xl line-clamp-2">{post.data.title}</a>
+										<a className="text-2xl line-clamp-2" style={{ minHeight: '3em' }}>{post.data.title}</a>
 									</Link>
 									{post.data.tags && (
 										<p className="text-base my-2 blog-tags line-clamp-1">
