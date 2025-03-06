@@ -24,8 +24,6 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
       console.log('Container width:', width); // Отладочное сообщение
       if (width >= 1024) { // xl
         setVideosPerPage(2); // 2 видео на странице
-      } else if (width >= 640) { // md
-        setVideosPerPage(2); // 2 видео на странице
       } else { // sm
         setVideosPerPage(1); // 1 видео на странице
       }
