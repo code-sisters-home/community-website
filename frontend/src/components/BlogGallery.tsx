@@ -104,7 +104,7 @@ export const BlogGallery = () => {
 						return (
 							<div key={index} className={`flex-shrink-0 w-full ${postsPerPage === 1 ? 'sm:w-full' : postsPerPage === 2 ? 'sm:w-1/2' : 'sm:w-1/3'} p-4`}>
 								<div className="basic text-lg widget p-8 h-full flex flex-col">
-									<Link href={`/blog/${post.slug}`} legacyBehavior>
+									<Link href={`/post/${post.slug}`} legacyBehavior>
 										<a className="text-2xl line-clamp-2" style={{ minHeight: '3em' }}>{post.data.title}</a>
 									</Link>
 									{post.data.tags && (

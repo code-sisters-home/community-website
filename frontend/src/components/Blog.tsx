@@ -87,7 +87,7 @@ export const Blog = () => {
           </h1>
           {posts.map((post, index) => (
             <div key={index} className="basic my-6 widget">
-              <Link href={`/blog/${post.slug}`} legacyBehavior>
+              <Link href={`/post/${post.slug}`} legacyBehavior>
               <a className="text-3xl">{post.data.title}</a>
               </Link>
               <p className="text-xl mt-5 text-gray-700 dark:text-gray-400">
