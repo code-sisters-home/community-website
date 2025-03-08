@@ -82,6 +82,8 @@ export const Blog = () => {
     <Container className="flex flex-col-reverse lg:flex-wrap lg:flex-row max-w-7xl">
       <div className="flex items-center w-full">
         <div className="max-w-7xl">
+        {posts.length > 0 ? (
+            <>
           <h1 className="caption text-center">
             <span className="purple">Блог</span>
           </h1>
@@ -105,6 +107,10 @@ export const Blog = () => {
               </button>
             </div>
           ))}
+          </>
+          ) :(
+            <div className="text-[40px]">Загрузка постов...</div> // Или другой лоадер
+          )}
         </div>
       </div>
     </Container>
