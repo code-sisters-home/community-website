@@ -30,6 +30,8 @@ export const About = () => {
       {/* Left section (Text) */}
       <div className="flex items-center w-full">
         <div className="max-w-7xl">
+        {aboutContent.length > 0 ? (
+            <>
           <h1 className="caption">
             <span className="purple">O нас</span>
           </h1>
@@ -44,6 +46,10 @@ export const About = () => {
               />
             <Markdown content={aboutContent} />
           </div>
+          </>
+          ) :(
+            <div className="text-[40px]">Загрузка постов...</div> // Или другой лоадер
+          )}
         </div>
       </div>
     </Container>
