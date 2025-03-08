@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const Blog = () => {
 	interface Post {
@@ -98,7 +99,7 @@ export const Blog = () => {
                   {post.data.tags.join(', ')}
                 </p>
               )}
-              {post.data.hero_image && <img width="800" className="max-w-full lg:max-w-3/4" src={post.data.hero_image} alt={post.data.title} />}
+              {post.data.hero_image && (<Image width="800" className="max-w-full lg:max-w-3/4" src={post.data.hero_image} alt={post.data.title} />)}
               <Markdown content={expandedPosts.has(index) ? post.content : getPreview(post.content)} />
               <button onClick={() => toggleExpand(index)} className=" text-gray-700 dark:text-gray-400 hover:underline">
                 {expandedPosts.has(index) ? 'Свернуть' : 'Читать дальше'}
