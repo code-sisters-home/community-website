@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 
 const components = {
   h1: ({ node, ...props }: any) => (
@@ -45,7 +46,7 @@ const components = {
     <pre className="pre-block" {...props} />
   ),
   img: ({ node, ...props }: any) => (
-    <img style={{ maxWidth: '100%' }} {...props} />
+    <Image style={{ maxWidth: '100%' }} {...props} alt="" />
   ),
 };
 

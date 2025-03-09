@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Markdown } from "@/components/Markdown";
 import { Container } from "@/components/Container";
+import Image from 'next/image';
 
 interface Post {
   content: string;
@@ -69,7 +70,7 @@ const BlogPost = () => {
                 </p>
               )}
               {post.data.hero_image && (
-                <img width="800" className="max-w-full lg:max-w-3/4" src={post.data.hero_image} alt={post.data.title} />
+                <Image width="800" className="max-w-full lg:max-w-3/4" src={post.data.hero_image} alt={post.data.title} />
               )}
               <Markdown content={post.content} />
             </div>

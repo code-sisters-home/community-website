@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const BlogGallery = () => {
 	interface Post {
@@ -115,7 +116,7 @@ export const BlogGallery = () => {
 									<div className="flex-grow overflow-hidden" style={{ height: '300px' }}>
 										{post.data.hero_image ? (
 											<div className="w-full h-2/3 overflow-hidden">
-												<img src={post.data.hero_image} alt={post.data.title} className="" />
+												<Image src={post.data.hero_image} alt={post.data.title} className="" />
 											</div>
 										) : (
 											<div className="h-full">
