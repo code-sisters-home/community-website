@@ -137,13 +137,15 @@ export const BlogGallery = () => {
                     style={{ height: "300px" }}
                   >
                     {post.data.hero_image ? (
-                      <div className="w-full h-2/3 overflow-hidden">
-                        <Image
-                          src={post.data.hero_image}
-                          alt={post.data.title}
-                          className=""
-                        />
-                      </div>
+                      <div style={{ position: 'relative', width: '100%', height: '300px', overflow: 'hidden' }}>
+					  <Image
+					     src={post.data.hero_image}
+					     alt={post.data.title} className=""
+						 style={{objectFit: 'cover'}}
+						 layout='responsive'
+						 width={300}
+						 height={300}/>
+				  </div>
                     ) : (
                       <div className="h-full">
                         <Markdown content={post.content.slice(0, 600)} />
