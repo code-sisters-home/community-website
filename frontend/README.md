@@ -1,8 +1,8 @@
-
 # Фронтенд
-![Screenshot](https://github.com/user-attachments/assets/a5cac725-4716-45d8-99c2-29e849ea4b12)
-## Как запустить
 
+![Screenshot](https://github.com/user-attachments/assets/a5cac725-4716-45d8-99c2-29e849ea4b12)
+
+## Как запустить
 
 ### 1\. Клонируем репозиторий
 
@@ -31,7 +31,3 @@ npm run dev
 ## Источники
 
 Сделано с использованием шаблона https://github.com/web3templates/nextly-template
-
-
-
-
