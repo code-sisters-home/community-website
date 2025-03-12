@@ -16,7 +16,7 @@ git clone https://github.com/code-sisters-home/community-website.git
 cd community-website/frontend
 ```
 
-### 3\. Устаналвиваем зависимости
+### 3\. Устанавливаем зависимости
 
 ```
 npm install
@@ -28,6 +28,12 @@ npm install
 npm run dev
 ```
 
-## Источники
+### 6\. Запустить форматтер, следом за ним линтер перед тем, как сделать коммит и запушить
 
-Сделано с использованием шаблона https://github.com/web3templates/nextly-template
+```
+npx prettier . --write
+```
+
+```
+npm run lint
+```
