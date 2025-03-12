@@ -107,6 +107,7 @@ export const Blog = () => {
                   {post.data.hero_image && (
                     <Image
                       width="800"
+                      height="800"
                       className="max-w-full lg:max-w-3/4"
                       src={post.data.hero_image}
                       alt={post.data.title}

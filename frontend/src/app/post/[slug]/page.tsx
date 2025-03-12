@@ -74,6 +74,7 @@ const BlogPost = () => {
             )}
             {post.data.hero_image && (
               <Image
+                height="800"
                 width="800"
                 className="max-w-full lg:max-w-3/4"
                 src={post.data.hero_image}
