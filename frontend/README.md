@@ -37,3 +37,7 @@ npx prettier . --write
 ```
 npm run lint
 ```
+
+## Источники
+
+Сделано с использованием шаблона https://github.com/web3templates/nextly-template
