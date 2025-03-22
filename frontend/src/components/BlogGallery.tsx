@@ -3,20 +3,9 @@ import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 import Link from "next/link";
 import Image from "next/image";
+import { fetchPosts, Post } from "@/utils/fetchPosts";
 
 export const BlogGallery = () => {
-  interface Post {
-    content: string;
-    data: {
-      title: string;
-      author: string;
-      date: string;
-      hero_image?: string;
-      tags?: string[];
-    };
-    slug: string;
-  }
-
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [postsPerPage, setPostsPerPage] = useState<number>(3); // Default to 3 posts per page
@@ -45,39 +34,12 @@ export const BlogGallery = () => {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch("/blog/posts.json");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const filenames = await res.json();
-        console.log("Fetched filenames:", filenames); // Проверка на список файлов
-
-        const postComponents = await Promise.all(
-          filenames.map(async (filename: string) => {
-            console.log("Processing filename:", filename); // Отладка имени файла
-            const [content, metadata] = await Promise.all([
-              fetch(`/blog/${filename}`).then((res) => res.text()),
-              fetch(`/blog/${filename.replace(".mdx", ".json")}`).then((res) =>
-                res.json(),
-              ),
-            ]);
-
-            const slug = filename.replace(".mdx", ""); // Получение slug из имени файла
-            console.log("Generated slug:", slug); // Проверка сгенерированного slug
-
-            return { content, data: metadata, slug }; // Возвращаем объект с правильным slug
-          }),
-        );
-
-        setPosts(postComponents);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
+    const loadPosts = async () => {
+      const postComponents = await fetchPosts();
+      setPosts(postComponents);
     };
 
-    fetchPosts();
+    loadPosts();
 
     // Обновляем количество постов на странице при изменении размера контейнера
     window.addEventListener("resize", updatePostsPerPage);
@@ -116,7 +78,13 @@ export const BlogGallery = () => {
             return (
               <div
                 key={index}
-                className={`flex-shrink-0 w-full ${postsPerPage === 1 ? "sm:w-full" : postsPerPage === 2 ? "sm:w-1/2" : "sm:w-1/3"} p-4`}
+                className={`flex-shrink-0 w-full ${
+                  postsPerPage === 1
+                    ? "sm:w-full"
+                    : postsPerPage === 2
+                    ? "sm:w-1/2"
+                    : "sm:w-1/3"
+                } p-4`}
               >
                 <div className="basic text-lg widget p-8 h-full flex flex-col">
                   <Link href={`/post/${post.slug}`} legacyBehavior>
