@@ -1,0 +1,49 @@
+name: Deploy dev
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and push (dev)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/code-sisters-home/community-website:dev
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
+            # dev clone
+            if [ ! -d /var/www/codesisters/community-website-dev ]; then
+              sudo mkdir -p /var/www/codesisters
+              sudo git clone https://github.com/code-sisters-home/community-website.git /var/www/codesisters/community-website-dev
+            fi
+            cd /var/www/codesisters/community-website-dev
+            sudo git fetch --all
+            sudo git checkout dev
+            sudo git pull
+            cd /var/www/codesisters
+            sudo docker compose pull web-dev || true
+            sudo docker compose up -d web-dev
+            sudo docker image prune -f
