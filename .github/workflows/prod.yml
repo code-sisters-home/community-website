@@ -1,7 +1,7 @@
 name: Deploy prod
 on:
   push:
-    branches: [ master ]
+    branches: [ master, main ]
   workflow_dispatch: {}
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push (prod)
         uses: docker/build-push-action@v6
@@ -35,18 +35,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
-            # prod clone
-            if [ ! -d /var/www/codesisters/community-website ]; then
-              sudo mkdir -p /var/www/codesisters
-              sudo git clone https://github.com/code-sisters-home/community-website.git /var/www/codesisters/community-website
-            fi
-            cd /var/www/codesisters/community-website
-            sudo git fetch --all
-            sudo git checkout master
-            sudo git pull
-            # compose and env live one level up
+            sudo docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} || true
+            sudo mkdir -p /var/www/codesisters
             cd /var/www/codesisters
-            sudo docker compose pull web-prod || true
+            sudo docker compose pull web-prod
             sudo docker compose up -d web-prod
             sudo docker image prune -f
