@@ -32,6 +32,6 @@ npm run dev
 
 Сделано с использованием шаблона https://github.com/web3templates/nextly-template
 
-
+test
 
 
