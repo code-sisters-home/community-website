@@ -18,7 +18,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_CS }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and push (dev)
         uses: docker/build-push-action@v6
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_CS }} || true
+            sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_TOKEN }} || true
             sudo mkdir -p /var/www/codesisters
             cd /var/www/codesisters
             sudo docker compose pull web-dev
