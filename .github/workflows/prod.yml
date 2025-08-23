@@ -23,7 +23,8 @@ jobs:
       - name: Build and push (prod)
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./frontend
+          file: ./frontend/Dockerfile
           push: true
           tags: ghcr.io/code-sisters-home/community-website:prod
 
