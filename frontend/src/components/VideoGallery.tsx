@@ -1,3 +1,4 @@
+// src/components/VideoGallery.tsx
 import React, { useEffect, useState } from "react";
 import { Gallery, GalleryItem } from "@/components/Gallery";
 import { Container } from "@/components/Container";
@@ -8,42 +9,55 @@ interface Video {
   title: string;
 }
 
+interface SearchResponse {
+  items: Video[];
+  nextPageToken?: string | null;
+}
+
 export const VideoGallery = ({ channelId }: { channelId: string }) => {
   const [videos, setVideos] = useState<Video[]>([]);
-  const [videosPerPage, setVideosPerPage] = useState<number>(2); // Default to 2 videos per page
-  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const [videosPerPage, setVideosPerPage] = useState<number>(2);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!channelId) return;
+
+    const controller = new AbortController();
+
     const fetchVideos = async () => {
-      if (!apiKey) {
-        console.error("API key is missing");
-        return;
-      }
-
       try {
-        const videosToLoad = 30;
-        const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${videosToLoad}`,
-        );
-        if (!response.ok) {
-          throw new Error(`HTTPS error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        const videoData = data.items
-          .map((item: any) => ({
-            videoId: item.id.videoId,
-            title: item.snippet.title,
-          }))
-          .filter((video: Video) => video.videoId);
+        setLoading(true);
 
-        setVideos(videoData);
-      } catch (error) {
-        console.error("Error fetching videos from YouTube API:", error);
+        const videosToLoad = 30;
+        const params = new URLSearchParams({
+          channelId,
+          order: "date",
+          maxResults: String(videosToLoad),
+        });
+
+        // ⚠️ Ключ НЕ нужен в браузере — запрос идёт на наш серверный API-роут
+        const res = await fetch(`/api/youtube/search?${params.toString()}`, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data: SearchResponse = await res.json();
+        setVideos(data.items ?? []);
+      } catch (err: any) {
+        if (err?.name === "AbortError") return;
+        console.error("Error fetching videos:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchVideos();
-  }, [channelId, apiKey]);
+    return () => controller.abort();
+  }, [channelId]);
 
   const updateVideosPerPage = (width: number) => {
     if (width >= 1024) {
@@ -57,13 +71,14 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
     id: video.videoId,
     content: (
       <>
-        <h2 className="text-2xl mb-4 line-clamp-2" style={{ minHeight: "3em" }}>
+        <h2
+          className="text-2xl mb-4 line-clamp-2"
+          style={{ minHeight: "3em" }}
+          title={video.title}
+        >
           {video.title}
         </h2>
-        <div
-          className="relative w-full"
-          style={{ height: 0, paddingBottom: "56.25%" }}
-        >
+        <div className="relative w-full" style={{ height: 0, paddingBottom: "56.25%" }}>
           <div className="absolute top-0 left-0 w-full h-full">
             <LiteYoutubeEmbed id={video.videoId} />
           </div>
@@ -78,6 +93,11 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
         <span className="purple">Видео на </span>
         канале
       </h1>
+
+      {loading && (
+        <div className="mb-6 text-sm opacity-70">Загружаем видео…</div>
+      )}
+
       <Gallery
         items={galleryItems}
         itemsPerPage={videosPerPage}
@@ -85,6 +105,12 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
         onNext={() => {}}
         onPrev={() => {}}
       />
+
+      {!loading && videos.length === 0 && (
+        <div className="mt-6 text-sm opacity-70">
+          Видео не найдены. Проверьте <code>channelId</code>.
+        </div>
+      )}
     </Container>
   );
 };
