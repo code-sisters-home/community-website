@@ -17,7 +17,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_CS }}
 
       - name: Build and push (dev)
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_CS }} || true
+            sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_CS }} || true
             sudo mkdir -p /var/www/codesisters
             cd /var/www/codesisters
             sudo docker compose pull web-dev
