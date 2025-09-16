@@ -8,14 +8,15 @@ import { Markdown } from "@/components/Markdown";
 
 export const BlogGallery = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [postsPerPage, setPostsPerPage] = useState<number>(3); // Default to 3 posts per page
+  const [postsPerPage, setPostsPerPage] = useState<number>(3);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadPosts = async () => {
       const postComponents = await fetchPosts();
       setPosts(postComponents);
+      setLoading(false);
     };
-
     loadPosts();
   }, []);
 
@@ -75,10 +76,12 @@ export const BlogGallery = () => {
 
   return (
     <Container className="flex flex-col max-w-7xl">
-      <h1 className="caption lg:text-left mt-0 mb-7">
-        <span className="purple">Посты в </span>
-        блоге
-      </h1>
+      {!loading && posts.length > 0 && (
+        <h1 className="caption lg:text-left mt-0 mb-7">
+          <span className="purple">Посты в </span>
+          блоге
+        </h1>
+      )}
       <Gallery
         items={galleryItems}
         itemsPerPage={postsPerPage}

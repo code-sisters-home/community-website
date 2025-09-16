@@ -17,7 +17,7 @@ interface SearchResponse {
 export const VideoGallery = ({ channelId }: { channelId: string }) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [videosPerPage, setVideosPerPage] = useState<number>(2);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!channelId) return;
@@ -89,10 +89,12 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
 
   return (
     <Container className="flex flex-col max-w-7xl">
-      <h1 className="caption lg:text-left mt-0 mb-7">
-        <span className="purple">Видео на </span>
-        канале
-      </h1>
+      {!loading && videos.length > 0 && (
+        <h1 className="caption lg:text-left mt-0 mb-7">
+          <span className="purple">Видео на </span>
+          канале
+        </h1>
+      )}
 
       {loading && (
         <div className="mb-6 text-sm opacity-70">Загружаем видео…</div>
