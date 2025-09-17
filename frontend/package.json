@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "next start -H 0.0.0.0",
-    "lint": "next lint",
-    "postbuild": "next-sitemap --config next-sitemap.config.js"
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
