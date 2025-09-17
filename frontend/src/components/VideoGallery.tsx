@@ -59,6 +59,12 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
     return () => controller.abort();
   }, [channelId]);
 
+  useEffect(() => {
+    if (!loading && videos.length === 0 && process.env.NODE_ENV === 'development') {
+      console.log('Видео не найдены. Проверьте channelId.');
+    }
+  }, [loading, videos.length]);
+
   const updateVideosPerPage = (width: number) => {
     if (width >= 1024) {
       setVideosPerPage(2); // 2 видео на странице
@@ -95,11 +101,9 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
           канале
         </h1>
       )}
-
       {loading && (
         <div className="mb-6 text-sm opacity-70">Загружаем видео…</div>
       )}
-
       <Gallery
         items={galleryItems}
         itemsPerPage={videosPerPage}
@@ -107,12 +111,6 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
         onNext={() => {}}
         onPrev={() => {}}
       />
-
-      {!loading && videos.length === 0 && (
-        <div className="mt-6 text-sm opacity-70">
-          Видео не найдены. Проверьте <code>channelId</code>.
-        </div>
-      )}
     </Container>
   );
 };
