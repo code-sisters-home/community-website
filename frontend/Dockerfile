@@ -4,6 +4,10 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN apk add --no-cache libc6-compat
+
+ARG NEXT_PUBLIC_SITE_URL=https://codesisters.net
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+
 RUN npm run build && npm prune --omit=dev
 
 FROM node:22-alpine AS run

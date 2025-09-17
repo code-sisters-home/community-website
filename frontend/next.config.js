@@ -9,5 +9,8 @@ module.exports = withMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  experimental: {
+    appDir: true, // если используете app directory
+  }
 };
 module.exports = nextConfig;

@@ -27,6 +27,8 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: ghcr.io/code-sisters-home/community-website:dev
+          build-args: |
+            NEXT_PUBLIC_SITE_URL=https://codesisters.net
 
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.2.0
