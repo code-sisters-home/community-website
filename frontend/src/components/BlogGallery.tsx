@@ -28,8 +28,8 @@ const ClampedMarkdown: React.FC<{ content: string; availableHeight: number }> = 
 
     let plainText = content
       .replace(/[#_*`>\[\]\(\)\-\+!]/g, "")
-      .replace(/[\n\r]/g, " ")
-      .replace(/\s+/g, " ")
+      //.replace(/[\n\r]/g, " ")
+      //.replace(/\s+/g, " ")
       .trim();
 
     const paddingTop = parseFloat(style.paddingTop) || 0;
