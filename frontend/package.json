@@ -33,6 +33,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
+    "react-lite-yt-embed": "^1.2.7",
     "react-markdown": "^9.0.3"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "eslint-config-next": "14.2.3",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.4.49",
+    "prettier": "3.5.3",
     "tailwindcss": "^3.4.15",
     "typescript": "^5"
   }

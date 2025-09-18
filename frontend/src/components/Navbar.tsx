@@ -1,5 +1,5 @@
 "use client";
-import { FC } from 'react';
+import { FC } from "react";
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
@@ -10,18 +10,26 @@ export const Navbar: FC = () => {
     { label: "Главная", value: "/" },
     { label: "О нас", value: "about" },
     { label: "ЧаВо", value: "faq" },
-    //{ label: "Блог", value: "blog" },
-    { label: "Мерч", value: "merch", external: true, link: "https://codesisters.vsemaykishop.ru/" }, // добавляем внешний сайт для "Мерч"
+    { label: "Блог", value: "blog" },
+    {
+      label: "Мерч",
+      value: "merch",
+      external: true,
+      link: "https://codesisters.vsemaykishop.ru/",
+    }, // добавляем внешний сайт для "Мерч"
   ];
 
-  const [isNavListActive, setOpen] = useState(false)
+  const [isNavListActive, setOpen] = useState(false);
 
   function onNavActiveClick() {
-    setOpen(!isNavListActive)
+    setOpen(!isNavListActive);
   }
 
-  const navListStyles = isNavListActive ? 'col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex' : 'hidden'
-  const navLinkStyles = "inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:green focus:green";
+  const navListStyles = isNavListActive
+    ? "col-span-2 items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex"
+    : "hidden";
+  const navLinkStyles =
+    "inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:green focus:green";
 
   const navLinkHoverStyles = `
     ${navLinkStyles}
@@ -35,8 +43,12 @@ export const Navbar: FC = () => {
         {/* Logo  */}
         <Link href="/">
           <span className="flex items-center space-x-2 text-2xl font-medium dark:text-gray-100">
-            <span className="font-ubuntu text-3xl font-bold green -mx-2">{'}'}</span>
-            <span className="font-ubuntu text-3xl font-bold purple -mx-2">{'{'}</span>
+            <span className="font-ubuntu text-3xl font-bold green -mx-2">
+              {"}"}
+            </span>
+            <span className="font-ubuntu text-3xl font-bold purple -mx-2">
+              {"{"}
+            </span>
             <span className="font-ubuntu">code_sisters</span>
           </span>
         </Link>
@@ -59,11 +71,10 @@ export const Navbar: FC = () => {
                     </a>
                   ) : (
                     <Link href={menu.value}>
-                    <button
-                      className={navLinkHoverStyles}
-                    >
-                      {menu.label}
-                    </button></Link>
+                      <button className={navLinkHoverStyles}>
+                        {menu.label}
+                      </button>
+                    </Link>
                   )}
                 </li>
               ))}
@@ -87,11 +98,13 @@ export const Navbar: FC = () => {
                 <Disclosure.Button
                   onClick={() => onNavActiveClick()}
                   aria-label="Toggle Menu"
-                  className="px-2 py-1 text-gray-500 rounded-md lg:hidden">
+                  className="px-2 py-1 text-gray-500 rounded-md lg:hidden"
+                >
                   <svg
                     className="w-6 h-6 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     {open && (
                       <path
                         fillRule="evenodd"
@@ -125,31 +138,27 @@ export const Navbar: FC = () => {
         </div>
 
         <ul className={`${navListStyles} lg:hidden`}>
-              {navigation.map((menu, index) => (
-                <li className="mr-3 nav__item" key={index}>
-                  {/* Если это внешний линк, заменяем на <a> */}
-                  {menu.external ? (
-                    <a
-                      href={menu.link}
-                      target="_blank"
-                      rel="noopener noreferrer" // открытие в новой вкладке
-                      className={navLinkHoverStyles}
-                    >
-                      {menu.label}
-                    </a>
-                  ) : (
-                    <Link href={menu.value}>
-                    <button
-                      className={navLinkHoverStyles}
-                    >
-                      {menu.label}
-                    </button>
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
+          {navigation.map((menu, index) => (
+            <li className="mr-3 nav__item" key={index}>
+              {/* Если это внешний линк, заменяем на <a> */}
+              {menu.external ? (
+                <a
+                  href={menu.link}
+                  target="_blank"
+                  rel="noopener noreferrer" // открытие в новой вкладке
+                  className={navLinkHoverStyles}
+                >
+                  {menu.label}
+                </a>
+              ) : (
+                <Link href={menu.value}>
+                  <button className={navLinkHoverStyles}>{menu.label}</button>
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
       </nav>
     </div>
   );
-}
+};
