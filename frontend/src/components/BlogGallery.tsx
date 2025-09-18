@@ -7,7 +7,10 @@ import Link from "next/link";
 import { Markdown } from "@/components/Markdown";
 import { useRef as useDebounceRef } from "react";
 
-const ClampedMarkdown: React.FC<{ content: string; availableHeight: number }> = ({ content, availableHeight }) => {
+const ClampedMarkdown: React.FC<{
+  content: string;
+  availableHeight: number;
+}> = ({ content, availableHeight }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [clampedText, setClampedText] = useState("");
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
@@ -116,7 +119,7 @@ const ClampedMarkdown: React.FC<{ content: string; availableHeight: number }> = 
         height: "100%",
         overflow: "hidden",
         whiteSpace: "pre-line",
-        textOverflow: "ellipsis"
+        textOverflow: "ellipsis",
       }}
     >
       {clampedText}
@@ -186,15 +189,17 @@ export const BlogGallery = () => {
                   imgRefs.current[post.slug] = el;
                   // Корректно навешиваем onload только один раз
                   if (el && !el.dataset._resizeHandled) {
-                    el.dataset._resizeHandled = '1';
+                    el.dataset._resizeHandled = "1";
                     const triggerResize = () => {
-                      const event = new Event('resize');
+                      const event = new Event("resize");
                       window.dispatchEvent(event);
                     };
                     if (el.complete) {
                       triggerResize();
                     } else {
-                      el.addEventListener('load', triggerResize, { once: true });
+                      el.addEventListener("load", triggerResize, {
+                        once: true,
+                      });
                     }
                   }
                 }}
@@ -213,7 +218,10 @@ export const BlogGallery = () => {
               />
             </>
           ) : (
-            <ClampedMarkdown content={post.content.slice(0, 600)} availableHeight={300} />
+            <ClampedMarkdown
+              content={post.content.slice(0, 600)}
+              availableHeight={300}
+            />
           )}
         </div>
         <p className="text-lg text-gray-700 dark:text-gray-400 mt-auto">

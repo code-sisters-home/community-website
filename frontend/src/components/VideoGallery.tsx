@@ -60,8 +60,12 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
   }, [channelId]);
 
   useEffect(() => {
-    if (!loading && videos.length === 0 && process.env.NODE_ENV === 'development') {
-      console.log('Видео не найдены. Проверьте channelId.');
+    if (
+      !loading &&
+      videos.length === 0 &&
+      process.env.NODE_ENV === "development"
+    ) {
+      console.log("Видео не найдены. Проверьте channelId.");
     }
   }, [loading, videos.length]);
 
@@ -84,7 +88,10 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
         >
           {video.title}
         </h2>
-        <div className="relative w-full" style={{ height: 0, paddingBottom: "56.25%" }}>
+        <div
+          className="relative w-full"
+          style={{ height: 0, paddingBottom: "56.25%" }}
+        >
           <div className="absolute top-0 left-0 w-full h-full">
             <LiteYoutubeEmbed id={video.videoId} />
           </div>
