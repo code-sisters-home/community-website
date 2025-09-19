@@ -39,6 +39,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo "${{ secrets.GHCR_TOKEN }}" | sudo docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+            sudo mkdir -p /opt/prod-blog
+            sudo chmod 755 /opt/prod-blog
             sudo mkdir -p /var/www/codesisters
             cd /var/www/codesisters
             sudo docker compose pull web-prod
