@@ -31,7 +31,8 @@ const ClampedMarkdown: React.FC<{
     const fontWeight = style.fontWeight;
 
     let plainText = content
-      .replace(/[#_*`>\[\]\(\)\-\+!]/g, "")
+      .replace(/[#_*`>\[\]\+!]/g, "")
+      //.replace(/[#_*`>\[\]\(\)\-\+!]/g, "")
       //.replace(/[\n\r]/g, " ")
       //.replace(/\s+/g, " ")
       .trim();
