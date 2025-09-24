@@ -78,14 +78,14 @@ export const Gallery: React.FC<GalleryProps> = ({
       </div>
       <button
         onClick={handlePrev}
-        className="absolute -left-2.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
+        className="absolute -left-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
         style={{ transform: "scaleY(3)" }}
       >
         &lt;
       </button>
       <button
         onClick={handleNext}
-        className="absolute -right-2.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
+        className="absolute -right-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
         style={{ transform: "scaleY(3)" }}
       >
         &gt;
