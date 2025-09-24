@@ -173,7 +173,7 @@ export const BlogGallery = () => {
     content: (
       <>
         <Link href={`/post/${post.slug}`} legacyBehavior>
-          <a className="text-2xl line-clamp-2" style={{ minHeight: "3em" }}>
+          <a className="text-2xl line-clamp-2 overflow-hidden" style={{ minHeight: "3em" }}>
             {post.data.title}
           </a>
         </Link>
