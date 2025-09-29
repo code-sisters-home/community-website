@@ -82,8 +82,8 @@ export const VideoGallery = ({ channelId }: { channelId: string }) => {
     content: (
       <>
         <h2
-          className="text-2xl mb-4 line-clamp-2"
-          style={{ minHeight: "3em" }}
+          className="text-2xl mb-4 line-clamp-2 overflow-hidden"
+          style={{ minHeight: "2.5em" }}
           title={video.title}
         >
           {video.title}

@@ -5,6 +5,7 @@ import { Gallery, GalleryItem } from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
 import { Markdown } from "@/components/Markdown";
+import { DotSeparator } from "@/components/DotSeparator";
 import { useRef as useDebounceRef } from "react";
 
 const ClampedMarkdown: React.FC<{
@@ -30,7 +31,8 @@ const ClampedMarkdown: React.FC<{
     const fontWeight = style.fontWeight;
 
     let plainText = content
-      .replace(/[#_*`>\[\]\(\)\-\+!]/g, "")
+      .replace(/[#_*`>\[\]\+!]/g, "")
+      //.replace(/[#_*`>\[\]\(\)\-\+!]/g, "")
       //.replace(/[\n\r]/g, " ")
       //.replace(/\s+/g, " ")
       .trim();
@@ -172,7 +174,7 @@ export const BlogGallery = () => {
     content: (
       <>
         <Link href={`/post/${post.slug}`} legacyBehavior>
-          <a className="text-2xl line-clamp-2" style={{ minHeight: "3em" }}>
+          <a className="text-2xl line-clamp-2 overflow-hidden" style={{ minHeight: "2.5em" }}>
             {post.data.title}
           </a>
         </Link>
@@ -225,7 +227,8 @@ export const BlogGallery = () => {
           )}
         </div>
         <p className="text-lg text-gray-700 dark:text-gray-400 mt-auto">
-          {post.data.author} 🞄{" "}
+          {post.data.author}
+          <DotSeparator />
           {new Date(post.data.date).toLocaleDateString("ru-RU")}
         </p>
       </>
