@@ -23,8 +23,6 @@ jobs:
       - name: Build and push (dev)
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
           push: true
           tags: ghcr.io/code-sisters-home/community-website:dev
           build-args: |
