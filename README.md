@@ -13,7 +13,7 @@ git clone https://github.com/code-sisters-home/community-website.git
 ### 2\. Переходим в директорию
 
 ```
-cd community-website/frontend
+cd community-website
 ```
 
 ### 3\. Устанавливаем зависимости
