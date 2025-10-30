@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Container } from "@/components/Container";
 import mainImg from "../../public/img/main.png";
+import content from "../../public/content.json";
 import { BlogGallery } from "@/components/BlogGallery";
 import { VideoGallery } from "@/components/VideoGallery";
 export const Main = () => {
@@ -14,9 +15,7 @@ export const Main = () => {
               <span className="purple">Перепиши </span>
               культурный код
             </h1>
-            <p className="basic md:mr-20 my-6">
-              code_sisters это закрытое комьюнити программисток, созданное женщинами для женщин, чтобы объединить разработчиц независимо от уровня и стека. Заходи, перепишем культурный код вместе!
-            </p>
+            <p className="basic md:mr-20 my-6">{content.main.lead}</p>
 
             <div className="bg-first flex flex-col items-center space-y-3 md:space-x-4 md:space-y-0 md:items-start md:flex-row">
               <a

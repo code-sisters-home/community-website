@@ -7,6 +7,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
+import content from "../../public/content.json";
 
 export const Faq = () => {
   return (
@@ -17,10 +18,9 @@ export const Faq = () => {
       <Container className="!p-0">
         <div className="w-full max-w-6xl mx-auto rounded-2xl">
           <div className="flex flex-wrap">
-            {faqdata.map((item, index) => (
+            {content.faq.map((item: any, index: number) => (
               <div key={item.question} className="lg:w-1/2 p-2 w-full">
-                {" "}
-                {/* В каждом элементе задаем ширину в 50% */}
+                {" "} {/* В каждом элементе задаем ширину в 50% */}
                 <Disclosure>
                   {({ open }) => (
                     <>
@@ -46,26 +46,3 @@ export const Faq = () => {
     </Container>
   );
 };
-
-const faqdata = [
-  {
-    question: "Кто может присоединиться к сообществу?",
-    answer:
-      "Женщины старше 18 лет, уже работающие в техносфере или желающие обучиться нужным для этого навыкам.",
-  },
-  {
-    question: "Как присоединиться к сообществу?",
-    answer:
-      "Написать в телеграме боту code_sisters_bot и следовать его инструкциям.",
-  },
-  {
-    question: "Зачем нужно женское сообщество?",
-    answer:
-      "Женское сообщество это круг своих, где ты не прочитаешь сексистских или уничижительных комментариев. В сфере все еще не достаточно женщин, и просто учась и работая, поддержку найти не просто.",
-  },
-  {
-    question: "Что если мой вопрос глупый и я стесняюсь задавать его в чате?",
-    answer:
-      "Не бывает глупых вопросов, все когда-то не умели делать то, чему ты сейчас учишься, это нормально. Более того, называть вопросы глупыми (и свои тоже) в чате запрещено.",
-  },
-];
