@@ -43,3 +43,4 @@ jobs:
             sudo docker compose pull web-dev
             sudo docker compose up -d web-dev
             sudo docker image prune -f
+#test
