@@ -21,10 +21,8 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
   }, []);
 
   useEffect(() => {
-    // Обновляем высоту при изменении контента или открытии/закрытии
     const timeoutId = setTimeout(updateHeight, 50);
     
-    // Наблюдаем за изменением размера контента
     const resizeObserver = new ResizeObserver(() => {
       updateHeight();
     });
@@ -38,6 +36,19 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
       resizeObserver.disconnect();
     };
   }, [children, isOpen, updateHeight]);
+
+  // Функция для преобразования текста в абзацы с точками
+  const renderDescription = (text: string) => {
+    // Разбиваем текст по двойным переносам строки
+    const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
+    
+    return paragraphs.map((paragraph, index) => (
+      <p key={index} className="mb-2 mt-2 first:mt-0 last:mb-0 flex items-start gap-2">
+        <span className="text-gray-500 dark:text-gray-400 flex-shrink-0 mt-1">•</span>
+        <span>{paragraph}</span>
+      </p>
+    ));
+  };
 
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
@@ -84,9 +95,9 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
       >
         <div 
           ref={contentRef} 
-          className="px-2 pb-4 text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap"
+          className="px-2 pb-4 text-gray-600 dark:text-gray-300 leading-relaxed"
         >
-          {children}
+          {typeof children === 'string' ? renderDescription(children) : children}
         </div>
       </div>
     </div>
