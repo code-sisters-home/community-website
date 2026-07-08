@@ -39,7 +39,6 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
 
   // Функция для преобразования текста в абзацы с точками
   const renderDescription = (text: string) => {
-    // Разбиваем текст по двойным переносам строки
     const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
     
     return paragraphs.map((paragraph, index) => (
@@ -144,33 +143,101 @@ export const RulesAccordion = () => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
 
+  // Компонент для отображения карточки с правилом
+  const RuleCard = ({ rule }: { rule: typeof rulesData[0] }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Разбиваем описание на абзацы
+    const paragraphs = rule.description.split('\n\n').filter(p => p.trim() !== '');
+
+    return (
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300"
+      >
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+        >
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white text-left">
+            {rule.title}
+          </h3>
+          <span className={`
+            ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400 
+            transition-transform duration-300
+            ${isOpen ? 'rotate-180' : 'rotate-0'}
+          `}>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+        
+        <div 
+          className={`
+            overflow-hidden transition-all duration-300 ease-in-out
+            ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
+          `}
+        >
+          <div className="p-6 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-700">
+            {paragraphs.map((paragraph, index) => (
+              <p key={index} className="mb-2 mt-2 first:mt-0 last:mb-0 flex items-start gap-2">
+                <span className="text-gray-500 dark:text-gray-400 flex-shrink-0 mt-1">•</span>
+                <span>{paragraph}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Container className="flex flex-col max-w-7xl">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Наши ценности
+          Что для нас важно?
         </h2>
         <p className="text-gray-600 dark:text-gray-400 text-lg">
-          Ознакомьтесь с правилами перед получением приглашения
+          Ознакомьтесь с нашими ценностями перед получением приглашения
         </p>
       </div>
       
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900/30 overflow-hidden border border-gray-100 dark:border-gray-700">
-        <div className="p-6">
-          {rulesData.map((rule) => (
-            <AccordionItem
-              key={rule.id}
-              title={rule.title}
-              isOpen={openAccordion === rule.id}
-              onToggle={() => toggleAccordion(rule.id)}
-            >
-              {rule.description}
-            </AccordionItem>
-          ))}
+      {/* Аккордеон для мобильных устройств (ширина меньше 820px) */}
+      <div className="block lg:hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900/30 overflow-hidden border border-gray-100 dark:border-gray-700">
+          <div className="p-6">
+            {rulesData.map((rule) => (
+              <AccordionItem
+                key={rule.id}
+                title={rule.title}
+                isOpen={openAccordion === rule.id}
+                onToggle={() => toggleAccordion(rule.id)}
+              >
+                {rule.description}
+              </AccordionItem>
+            ))}
+          </div>
         </div>
       </div>
 
-      <p className="caption text-center mb-12">
+      {/* Карточки для десктопа (ширина больше 820px) */}
+      <div className="hidden lg:grid lg:grid-cols-2 gap-6">
+        {rulesData.map((rule) => (
+          <RuleCard key={rule.id} rule={rule} />
+        ))}
+      </div>
+
+       <p className="caption text-center mb-12">
         <span className="purple">Откликается? </span><span>Присоединяйся!</span>
       </p>
     </Container>
