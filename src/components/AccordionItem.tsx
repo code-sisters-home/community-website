@@ -115,7 +115,7 @@ export const RulesAccordion = () => {
     },
     {
       id: 'rule2',
-      title: 'Чего мы хотим? Это наши ценности',
+      title: 'Чего мы хотим?',
       description: 'Мы хотим объединить всех русскоговорящих программисток и разработчиц в одном чате, но только если это взаимно.\n\nТолько женщины и только код.\n\nМы хотим вовлекать в программирование как можно больше женщин.\n\nЖелательно всех!'
     },
     {
@@ -148,7 +148,7 @@ export const RulesAccordion = () => {
     <Container className="flex flex-col max-w-7xl">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Правила участия
+          Наши ценности
         </h2>
         <p className="text-gray-600 dark:text-gray-400 text-lg">
           Ознакомьтесь с правилами перед получением приглашения
@@ -169,6 +169,10 @@ export const RulesAccordion = () => {
           ))}
         </div>
       </div>
+
+      <p className="caption text-center mb-12">
+        <span className="purple">Откликается? </span><span>Присоединяйся!</span>
+      </p>
     </Container>
   );
 };

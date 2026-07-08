@@ -87,6 +87,7 @@ export const Main = () => {
         </div>
       </Container>
       <RulesAccordion />
+      <hr className="my-6 border-gray-300 dark:border-gray-700" />
       <BlogGallery />
       <VideoGallery channelId="UC_JXPJ8Vo-qkV4pn0C7KAQw" />
     </>
