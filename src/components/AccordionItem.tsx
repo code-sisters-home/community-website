@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Container } from './Container';
 
 const AccordionItem = ({ title, children, isOpen, onToggle }: { 
@@ -9,53 +9,86 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
   isOpen: boolean; 
   onToggle: () => void;
 }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const updateHeight = useCallback(() => {
+    if (contentRef.current) {
+      const scrollHeight = contentRef.current.scrollHeight;
+      setHeight(scrollHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Обновляем высоту при изменении контента или открытии/закрытии
+    const timeoutId = setTimeout(updateHeight, 50);
+    
+    // Наблюдаем за изменением размера контента
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+      resizeObserver.disconnect();
+    };
+  }, [children, isOpen, updateHeight]);
+
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
       <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors rounded-lg"
+        onClick={() => {
+          setIsAnimating(true);
+          onToggle();
+          setTimeout(() => setIsAnimating(false), 400);
+        }}
+        className="w-full flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors rounded-lg group relative"
       >
         <span className="text-lg font-large text-gray-800 dark:text-gray-200">{title}</span>
-        <span className="ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400">
-           {isOpen ? (
-            // Стрелка вверх (открыто)
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
-          ) : (
-            // Стрелка вниз (закрыто)
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          )}
+        <span className={`
+          ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400 
+          transition-all duration-400 ease-in-out
+          ${isOpen ? 'rotate-180' : 'rotate-0'}
+          group-hover:text-gray-700 dark:group-hover:text-gray-300
+          group-hover:scale-110
+        `}>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </span>
       </button>
       
-      {isOpen && (
-        <div className="px-2 pb-4 text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+      <div 
+        className="overflow-hidden transition-all duration-400 ease-in-out"
+        style={{
+          maxHeight: isOpen ? height : 0,
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
+          transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
+      >
+        <div 
+          ref={contentRef} 
+          className="px-2 pb-4 text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap"
+        >
           {children}
         </div>
-      )}
+      </div>
     </div>
   );
 };
