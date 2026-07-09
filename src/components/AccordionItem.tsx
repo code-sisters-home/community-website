@@ -11,6 +11,7 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>(0);
+  //без isAnimating не будет работать корректно
   const [isAnimating, setIsAnimating] = useState(false);
 
   const updateHeight = useCallback(() => {
