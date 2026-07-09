@@ -4,7 +4,6 @@ import { fetchPosts, Post } from "@/utils/fetchPosts";
 import { Gallery, GalleryItem } from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
-import { Markdown } from "@/components/Markdown";
 import { DotSeparator } from "@/components/DotSeparator";
 import { useRef as useDebounceRef } from "react";
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Container } from "@/components/Container";
-import mainImg from "../../public/img/main.png";
-import content from "../../public/content.json";
+import mainImg from "@img/main.png";
+import content from "@public/content.json";
 import { BlogGallery } from "@/components/BlogGallery";
 import { VideoGallery } from "@/components/VideoGallery";
 import { RulesAccordion } from "@/components/AccordionItem";
