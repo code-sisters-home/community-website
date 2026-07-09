@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 import Image from "next/image";
-import adaImg from "../../public/img/Ada_Lovelace_squared.png";
+import adaImg from "@img/Ada_Lovelace_squared.png";
 
 export const About = () => {
   const [aboutContent, setAboutContent] = useState<string>("");
