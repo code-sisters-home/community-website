@@ -3,6 +3,7 @@ import { FC } from "react";
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
+import { DisclosureButton } from "@headlessui/react";
 import React, { useState } from "react";
 
 export const Navbar: FC = () => {
@@ -95,7 +96,7 @@ export const Navbar: FC = () => {
           <Disclosure>
             {({ open }) => (
               <>
-                <Disclosure.Button
+                <DisclosureButton
                   onClick={() => onNavActiveClick()}
                   aria-label="Toggle Menu"
                   className="px-2 py-1 text-gray-500 rounded-md lg:hidden"
@@ -119,7 +120,7 @@ export const Navbar: FC = () => {
                       />
                     )}
                   </svg>
-                </Disclosure.Button>
+                </DisclosureButton>
 
                 {/* <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden ">
                   {navigation.map((item, index) => (
