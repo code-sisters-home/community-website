@@ -212,9 +212,17 @@ export const RulesAccordion = () => {
         })}
       </div>
 
-      <p className="caption text-center mb-12">
-        <span className="purple">Откликается? </span><span>Присоединяйся!</span>
-      </p>
+      <p className="caption text-center mb-12 flex items-center justify-center gap-2 flex-wrap">
+  <span>Откликается?</span>
+  <button
+    className="button text-gray-200 px-8 py-4 text-lg caption"
+    onClick={() => {
+      window.open('https://t.me/code_sisters_bot', '_blank', 'noopener,noreferrer');
+    }}
+  >
+    Присоединяйся!
+  </button>
+</p>
     </Container>
   );
 };
