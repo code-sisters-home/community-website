@@ -150,7 +150,7 @@ export const RulesAccordion = () => {
       {/* Аккордеон для мобильных устройств (ширина меньше 768px) */}
       <div className="block md:hidden">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900/30 overflow-hidden border border-gray-100 dark:border-gray-700">
-          <div className="p-6">
+          <div className="p-6 max-[376px]:!p-1">
             {rulesData.map((rule) => (
               <AccordionItem
                 key={rule.id}
