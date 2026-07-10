@@ -143,11 +143,8 @@ export const RulesAccordion = () => {
     <Container className="flex flex-col max-w-7xl">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Что для нас важно?
+          Наши ценности
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">
-          Ознакомьтесь с нашими ценностями перед получением приглашения
-        </p>
       </div>
       
       {/* Аккордеон для мобильных устройств (ширина меньше 768px) */}
