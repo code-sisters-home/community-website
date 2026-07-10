@@ -190,8 +190,8 @@ export const RulesAccordion = () => {
         </p>
       </div>
       
-      {/* Аккордеон для мобильных устройств (ширина меньше 820px) */}
-      <div className="block lg:hidden">
+      {/* Аккордеон для мобильных устройств (ширина меньше 768px) */}
+      <div className="block md:hidden">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900/30 overflow-hidden border border-gray-100 dark:border-gray-700">
           <div className="p-6">
             {rulesData.map((rule) => (
@@ -208,8 +208,8 @@ export const RulesAccordion = () => {
         </div>
       </div>
 
-      {/* Карточки для десктопа (ширина больше 820px) */}
-      <div className="hidden lg:grid lg:grid-cols-2 gap-6">
+      {/* Карточки для десктопа (ширина больше 768px) */}
+      <div className="hidden md:grid md:grid-cols-2 gap-6">
         {rulesData.map((rule) => (
           <RuleCard key={rule.id} rule={rule} />
         ))}
