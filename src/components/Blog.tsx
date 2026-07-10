@@ -5,7 +5,7 @@ import { Markdown } from "@/components/Markdown";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchPosts, Post } from "@/utils/fetchPosts";
-import { DotSeparator } from "@/components/DotSeparator";
+import { DotSeparatorIcon } from "@/components/icons/DotSeparatorIcon";
 
 export const Blog = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -59,7 +59,7 @@ export const Blog = () => {
                     <a className="text-3xl">{post.data.title}</a>
                   </Link>
                   <p className="text-xl mt-5 text-gray-700 dark:text-gray-400">
-                    {post.data.author} <DotSeparator />{" "}
+                    {post.data.author} <DotSeparatorIcon />{" "}
                     {new Date(post.data.date).toLocaleDateString("ru-RU")}
                   </p>
                   {post.data.tags && (

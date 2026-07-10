@@ -150,7 +150,7 @@ export const RulesAccordion = () => {
       {/* Аккордеон для мобильных устройств (ширина меньше 768px) */}
       <div className="block md:hidden">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900/30 overflow-hidden border border-gray-100 dark:border-gray-700">
-          <div className="p-6">
+          <div className="p-6 max-[376px]:!p-1">
             {rulesData.map((rule) => (
               <AccordionItem
                 key={rule.id}
@@ -212,9 +212,17 @@ export const RulesAccordion = () => {
         })}
       </div>
 
-      <p className="caption text-center mb-12">
-        <span className="purple">Откликается? </span><span>Присоединяйся!</span>
-      </p>
+      <p className="caption text-center mb-12 flex items-center justify-center gap-2 flex-wrap">
+  <span>Откликается?</span>
+  <button
+    className="button text-gray-200 px-8 py-4 text-lg caption"
+    onClick={() => {
+      window.open('https://t.me/code_sisters_bot', '_blank', 'noopener,noreferrer');
+    }}
+  >
+    Присоединяйся!
+  </button>
+</p>
     </Container>
   );
 };
