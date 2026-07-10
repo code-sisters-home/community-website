@@ -12,8 +12,6 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>(0);
-  //без isAnimating не будет работать корректно
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const updateHeight = useCallback(() => {
     if (contentRef.current) {
@@ -39,7 +37,6 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
     };
   }, [children, isOpen, updateHeight]);
 
-  // Функция для преобразования текста в абзацы с точками
   const renderDescription = (text: string) => {
     const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
     
@@ -54,17 +51,13 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
       <button
-        onClick={() => {
-          setIsAnimating(true);
-          onToggle();
-          setTimeout(() => setIsAnimating(false), 400);
-        }}
+        onClick={onToggle}
         className="w-full flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors rounded-lg group relative"
       >
         <span className="text-lg font-large text-gray-800 dark:text-gray-200">{title}</span>
         <span className={`
           ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400 
-          transition-all duration-400 ease-in-out
+          transition-all duration-300 ease-in-out
           ${isOpen ? 'rotate-180' : 'rotate-0'}
           group-hover:text-gray-700 dark:group-hover:text-gray-300
           group-hover:scale-110
@@ -74,12 +67,11 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
       </button>
       
       <div 
-        className="overflow-hidden transition-all duration-400 ease-in-out"
+        className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{
-          maxHeight: isOpen ? height : 0,
+          height: isOpen ? height : 0,
           opacity: isOpen ? 1 : 0,
-          transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
-          transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+          transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div 
@@ -94,7 +86,8 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
 };
 
 export const RulesAccordion = () => {
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  // Храним ID открытой пары карточек
+  const [openPairId, setOpenPairId] = useState<string | null>(null);
 
   const rulesData = [
     {
@@ -129,54 +122,21 @@ export const RulesAccordion = () => {
     }
   ];
 
-  const toggleAccordion = (id: string) => {
-    setOpenAccordion(openAccordion === id ? null : id);
+  // Функция для получения ID пары карточек
+  const getPairId = (index: number) => {
+    return Math.floor(index / 2).toString();
   };
 
-  // Компонент для отображения карточки с правилом
-  const RuleCard = ({ rule }: { rule: typeof rulesData[0] }) => {
-    const [isOpen, setIsOpen] = useState(false);
+  // Функция для определения, открыта ли карточка
+  const isCardOpen = (index: number) => {
+    const pairId = getPairId(index);
+    return openPairId === pairId;
+  };
 
-    // Разбиваем описание на абзацы
-    const paragraphs = rule.description.split('\n\n').filter(p => p.trim() !== '');
-
-    return (
-      <div 
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300"
-      >
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-        >
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white text-left">
-            {rule.title}
-          </h3>
-          <span className={`
-            ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400 
-            transition-transform duration-300
-            ${isOpen ? 'rotate-180' : 'rotate-0'}
-          `}>
-            <ChevronDownIcon />
-          </span>
-        </button>
-        
-        <div 
-          className={`
-            overflow-hidden transition-all duration-300 ease-in-out
-            ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
-          `}
-        >
-          <div className="p-6 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-700">
-            {paragraphs.map((paragraph, index) => (
-              <p key={index} className="mb-2 mt-2 first:mt-0 last:mb-0 flex items-start gap-2">
-                <span className="text-gray-500 dark:text-gray-400 flex-shrink-0 mt-1">•</span>
-                <span>{paragraph}</span>
-              </p>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+  // Обработчик клика
+  const handleCardClick = (index: number) => {
+    const pairId = getPairId(index);
+    setOpenPairId(openPairId === pairId ? null : pairId);
   };
 
   return (
@@ -198,8 +158,8 @@ export const RulesAccordion = () => {
               <AccordionItem
                 key={rule.id}
                 title={rule.title}
-                isOpen={openAccordion === rule.id}
-                onToggle={() => toggleAccordion(rule.id)}
+                isOpen={openPairId === rule.id}
+                onToggle={() => setOpenPairId(openPairId === rule.id ? null : rule.id)}
               >
                 {rule.description}
               </AccordionItem>
@@ -210,12 +170,52 @@ export const RulesAccordion = () => {
 
       {/* Карточки для десктопа (ширина больше 768px) */}
       <div className="hidden md:grid md:grid-cols-2 gap-6">
-        {rulesData.map((rule) => (
-          <RuleCard key={rule.id} rule={rule} />
-        ))}
+        {rulesData.map((rule, index) => {
+          const isOpen = isCardOpen(index);
+          const paragraphs = rule.description.split('\n\n').filter(p => p.trim() !== '');
+          
+          return (
+            <div 
+              key={rule.id}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300"
+            >
+              <button
+                onClick={() => handleCardClick(index)}
+                className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              >
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white text-left">
+                  {rule.title}
+                </h3>
+                <span className={`
+                  ml-4 flex-shrink-0 text-gray-500 dark:text-gray-400 
+                  transition-transform duration-300 ease-in-out
+                  ${isOpen ? 'rotate-180' : 'rotate-0'}
+                `}>
+                  <ChevronDownIcon />
+                </span>
+              </button>
+              
+              <div 
+                className={`
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
+                `}
+              >
+                <div className="p-6 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-700">
+                  {paragraphs.map((paragraph, pIndex) => (
+                    <p key={pIndex} className="mb-2 mt-2 first:mt-0 last:mb-0 flex items-start gap-2">
+                      <span className="text-gray-500 dark:text-gray-400 flex-shrink-0 mt-1">•</span>
+                      <span>{paragraph}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-       <p className="caption text-center mb-12">
+      <p className="caption text-center mb-12">
         <span className="purple">Откликается? </span><span>Присоединяйся!</span>
       </p>
     </Container>
