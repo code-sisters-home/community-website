@@ -7,7 +7,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
-import content from "../../public/content.json";
+import content from "@public/content.json";
 
 export const Faq = () => {
   return (

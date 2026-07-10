@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Markdown } from "@/components/Markdown";
 import { Container } from "@/components/Container";
 import Image from "next/image";
-import { DotSeparator } from "@/components/DotSeparator";
+import { DotSeparatorIcon } from "@/components/icons/DotSeparatorIcon";
 
 interface Post {
   content: string;
@@ -65,7 +65,7 @@ const BlogPost = () => {
           <div className="basic my-6 widget">
             <h1 className="text-3xl">{post.data.title}</h1>
             <p className="text-xl mt-5 text-gray-700 dark:text-gray-400">
-              {post.data.author} <DotSeparator />{" "}
+              {post.data.author} <DotSeparatorIcon />{" "}
               {new Date(post.data.date).toLocaleDateString("ru-RU")}
             </p>
             {post.data.tags && (
