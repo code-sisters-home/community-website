@@ -177,6 +177,7 @@ input:where([type="button"]),
 input:where([type="reset"]),
 input:where([type="submit"]) {
   -webkit-appearance: button;
+  appearance: button;
   background-color: initial;
   background-image: none;
 }
@@ -195,6 +196,7 @@ progress {
 }
 [type="search"] {
   -webkit-appearance: textfield;
+  appearance: textfield;
   outline-offset: -2px;
 }
 ::-webkit-search-decoration {
@@ -268,7 +270,6 @@ object,
 svg,
 video {
   display: block;
-  vertical-align: middle;
 }
 img,
 video {
@@ -420,6 +421,7 @@ video {
 }
 .line-clamp-1 {
   -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 .line-clamp-1,
 .line-clamp-2 {
@@ -429,6 +431,7 @@ video {
 }
 .line-clamp-2 {
   -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 .inline-block {
   display: inline-block;

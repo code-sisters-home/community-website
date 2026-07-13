@@ -86,8 +86,8 @@ const AccordionItem = ({ title, children, isOpen, onToggle }: {
 };
 
 export const RulesAccordion = () => {
-  // Храним ID открытой пары карточек
-  const [openPairId, setOpenPairId] = useState<string | null>(null);
+  // Изменяем состояние на Set для хранения открытых ID
+  const [openItems, setOpenItems] = useState<Set<string>>(new Set());
 
   const rulesData = [
     {
@@ -122,21 +122,17 @@ export const RulesAccordion = () => {
     }
   ];
 
-  // Функция для получения ID пары карточек
-  const getPairId = (index: number) => {
-    return Math.floor(index / 2).toString();
-  };
-
-  // Функция для определения, открыта ли карточка
-  const isCardOpen = (index: number) => {
-    const pairId = getPairId(index);
-    return openPairId === pairId;
-  };
-
-  // Обработчик клика
-  const handleCardClick = (index: number) => {
-    const pairId = getPairId(index);
-    setOpenPairId(openPairId === pairId ? null : pairId);
+  // Функция для переключения состояния карточки
+  const toggleItem = (id: string) => {
+    setOpenItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   return (
@@ -155,8 +151,8 @@ export const RulesAccordion = () => {
               <AccordionItem
                 key={rule.id}
                 title={rule.title}
-                isOpen={openPairId === rule.id}
-                onToggle={() => setOpenPairId(openPairId === rule.id ? null : rule.id)}
+                isOpen={openItems.has(rule.id)}
+                onToggle={() => toggleItem(rule.id)}
               >
                 {rule.description}
               </AccordionItem>
@@ -166,9 +162,9 @@ export const RulesAccordion = () => {
       </div>
 
       {/* Карточки для десктопа (ширина больше 768px) */}
-      <div className="hidden md:grid md:grid-cols-2 gap-6">
-        {rulesData.map((rule, index) => {
-          const isOpen = isCardOpen(index);
+      <div className="hidden md:grid md:grid-cols-1 max-w-[768px] gap-3 mx-auto">
+        {rulesData.map((rule) => {
+          const isOpen = openItems.has(rule.id);
           const paragraphs = rule.description.split('\n\n').filter(p => p.trim() !== '');
           
           return (
@@ -177,7 +173,7 @@ export const RulesAccordion = () => {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300"
             >
               <button
-                onClick={() => handleCardClick(index)}
+                onClick={() => toggleItem(rule.id)}
                 className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
               >
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white text-left">
@@ -213,16 +209,16 @@ export const RulesAccordion = () => {
       </div>
 
       <p className="caption text-center mb-12 flex items-center justify-center gap-2 flex-wrap">
-  <span>Откликается?</span>
-  <button
-    className="button text-gray-200 px-8 py-4 text-lg caption"
-    onClick={() => {
-      window.open('https://t.me/code_sisters_bot', '_blank', 'noopener,noreferrer');
-    }}
-  >
-    Присоединяйся!
-  </button>
-</p>
+        <span>Откликается?</span>
+        <button
+          className="button text-gray-200 px-8 py-4 text-lg caption"
+          onClick={() => {
+            window.open('https://t.me/code_sisters_bot', '_blank', 'noopener,noreferrer');
+          }}
+        >
+          Присоединяйся!
+        </button>
+      </p>
     </Container>
   );
 };
