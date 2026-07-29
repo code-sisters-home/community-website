@@ -102,7 +102,7 @@ export const Navbar: FC = () => {
                   aria-label="Toggle Menu"
                   className="px-2 py-1 text-gray-500 rounded-md lg:hidden"
                 >
-                  <MenuIcon open={open} className="w-6 h-6" />
+                  <MenuIcon open={open} className="w-6 h-6 fill-current" />
                 </DisclosureButton>
 
                 {/* <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden ">

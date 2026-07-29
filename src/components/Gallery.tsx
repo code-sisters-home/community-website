@@ -39,7 +39,12 @@ export const Gallery: React.FC<GalleryProps> = ({
     };
   }, [updateItemsPerPage]);
 
+  // Проверяем, доступны ли кнопки
+  const isPrevDisabled = currentIndex === 0;
+  const isNextDisabled = currentIndex >= items.length - itemsPerPage;
+
   const handleNext = () => {
+    if (isNextDisabled) return;
     setCurrentIndex((prevIndex) =>
       Math.min(prevIndex + itemsPerPage, items.length - itemsPerPage),
     );
@@ -47,6 +52,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   };
 
   const handlePrev = () => {
+    if (isPrevDisabled) return;
     setCurrentIndex((prevIndex) => Math.max(prevIndex - itemsPerPage, 0));
     onPrev();
   };
@@ -78,14 +84,20 @@ export const Gallery: React.FC<GalleryProps> = ({
       </div>
       <button
         onClick={handlePrev}
-        className="absolute -left-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
+        disabled={isPrevDisabled}
+        className={`absolute -left-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2 transition-opacity duration-200 ${
+          isPrevDisabled ? "opacity-30 cursor-not-allowed" : "opacity-100 hover:opacity-80"
+        }`}
         style={{ transform: "scaleY(3)" }}
       >
         &lt;
       </button>
       <button
         onClick={handleNext}
-        className="absolute -right-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2"
+        disabled={isNextDisabled}
+        className={`absolute -right-1.5 top-1/2 transform -translate-y-1/2 basic text-sm p-2 transition-opacity duration-200 ${
+          isNextDisabled ? "opacity-30 cursor-not-allowed" : "opacity-100 hover:opacity-80"
+        }`}
         style={{ transform: "scaleY(3)" }}
       >
         &gt;
