@@ -115,7 +115,9 @@ export const Navbar: FC = () => {
         </div>
 
         {/* Mobile Menu */}
-        <ul className={`${navListStyles} lg:hidden`}>
+        <ul className={`${navListStyles} lg:hidden`}
+        data-testid="mobile-menu"
+        >
           {navigation.map((menu, index) => (
             <li className="mr-3 nav__item" key={index}>
               {menu.external ? (
