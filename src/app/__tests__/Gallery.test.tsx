@@ -118,391 +118,173 @@ it('should disable next button on last page', () => {
 });
   })
 
-//   describe('Navigation - Forward', () => {
-//     it('should navigate to next page when Next button is clicked', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
+describe('Navigation - Forward', () => {
+  it('should navigate to next page when Next button is clicked', () => {
+    render(
+      <Gallery
+        items={mockItems}
+        itemsPerPage={3}
+        updateItemsPerPage={mockUpdateItemsPerPage}
+        onNext={mockOnNext}
+        onPrev={mockOnPrev}
+      />
+    );
 
-//       const nextButton = screen.getByText('>');
-//       const container = document.querySelector('.flex');
+    const nextButton = screen.getByText('>');
+    const container = document.querySelector<HTMLElement>('.flex');
 
-//       // Проверяем начальную позицию
-//       expect(container).toHaveStyle('transform: translateX(0%)');
+    // Проверяем начальную позицию
+    expect(container?.style.transform).toMatch(/translateX\(-?0%\)/);
 
-//       // Кликаем Next
-//       fireEvent.click(nextButton);
+    // Кликаем Next
+    fireEvent.click(nextButton);
 
-//       // Проверяем, что трансформация изменилась
-//       expect(container).toHaveStyle('transform: translateX(-33.3333%)');
-//       expect(mockOnNext).toHaveBeenCalledTimes(1);
-//     });
+    // Проверяем, что трансформация изменилась на -100%
+    expect(container?.style.transform).toBe('translateX(-100%)');
+    expect(mockOnNext).toHaveBeenCalledTimes(1);
+  });
+});
+describe('Navigation - Backward', () => {
+  it('should navigate to previous page when Prev button is clicked', () => {
+    render(
+      <Gallery
+        items={mockItems}
+        itemsPerPage={3}
+        updateItemsPerPage={mockUpdateItemsPerPage}
+        onNext={mockOnNext}
+        onPrev={mockOnPrev}
+      />
+    );
 
-//     it('should navigate multiple pages forward', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={2}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
+    const nextButton = screen.getByText('>');
+    const prevButton = screen.getByText('<');
+    const container = document.querySelector<HTMLElement>('.flex');
 
-//       const nextButton = screen.getByText('>');
-//       const container = document.querySelector('.flex');
+    // Сначала переходим на вторую страницу
+    fireEvent.click(nextButton);
+    expect(container?.style.transform).toBe('translateX(-100%)');
 
-//       // Кликаем 3 раза (должно быть 3 страницы: 0->1->2)
-//       fireEvent.click(nextButton);
-//       expect(container).toHaveStyle('transform: translateX(-50%)');
+    // Теперь кликаем Prev
+    fireEvent.click(prevButton);
+    expect(container?.style.transform).toMatch(/translateX\(-?0%\)/);
+    expect(mockOnPrev).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate multiple pages backward', () => {
+    render(
+      <Gallery
+        items={mockItems}
+        itemsPerPage={2}
+        updateItemsPerPage={mockUpdateItemsPerPage}
+        onNext={mockOnNext}
+        onPrev={mockOnPrev}
+      />
+    );
+
+    const nextButton = screen.getByText('>');
+    const prevButton = screen.getByText('<');
+    const container = document.querySelector<HTMLElement>('.flex');
+
+    // Переходим на последнюю страницу
+    fireEvent.click(nextButton); // page 1
+    fireEvent.click(nextButton); // page 2
+    expect(container?.style.transform).toBe('translateX(-200%)');
+
+    // Возвращаемся назад
+    fireEvent.click(prevButton);
+    expect(container?.style.transform).toBe('translateX(-100%)');
+    
+    fireEvent.click(prevButton);
+    expect(container?.style.transform).toMatch(/translateX\(-?0%\)/);
+    
+    expect(mockOnPrev).toHaveBeenCalledTimes(2);
+  });
+
+  it('should not navigate before first page', () => {
+    render(
+      <Gallery
+        items={mockItems}
+        itemsPerPage={3}
+        updateItemsPerPage={mockUpdateItemsPerPage}
+        onNext={mockOnNext}
+        onPrev={mockOnPrev}
+      />
+    );
+
+    const prevButton = screen.getByText('<');
+    const container = document.querySelector<HTMLElement>('.flex');
+
+    // На первой странице Prev disabled
+    expect(prevButton.hasAttribute('disabled')).toBe(true);
+    
+    // Пытаемся кликнуть Prev
+    fireEvent.click(prevButton);
+    // Позиция не должна измениться
+    expect(container?.style.transform).toMatch(/translateX\(-?0%\)/);
+    expect(mockOnPrev).not.toHaveBeenCalled();
+  });
+});
+
+  describe('Edge cases', () => {
+    it('should handle empty items array', () => {
+      render(
+        <Gallery
+          items={[]}
+          itemsPerPage={3}
+          updateItemsPerPage={mockUpdateItemsPerPage}
+          onNext={mockOnNext}
+          onPrev={mockOnPrev}
+        />
+      );
+
+      const container = document.querySelector('.flex');
+      expect(container?.children).toHaveLength(0);
       
-//       fireEvent.click(nextButton);
-//       expect(container).toHaveStyle('transform: translateX(-100%)');
+      const prevButton = screen.getByText('<');
+      const nextButton = screen.getByText('>');
+      expect(prevButton.hasAttribute('disabled')).toBe(true);
+      expect(nextButton.hasAttribute('disabled')).toBe(true);
+    });
+
+    it('should handle single item', () => {
+      const singleItem: GalleryItem[] = [
+        { id: '1', content: <div>Single Item</div> },
+      ];
+
+      render(
+        <Gallery
+          items={singleItem}
+          itemsPerPage={1}
+          updateItemsPerPage={mockUpdateItemsPerPage}
+          onNext={mockOnNext}
+          onPrev={mockOnPrev}
+        />
+      );
+
+      expect(screen.getByText('Single Item')).toBeTruthy();
       
-//       fireEvent.click(nextButton);
-//       // После 3-го клика мы на последней странице, позиция не меняется
-//       expect(container).toHaveStyle('transform: translateX(-100%)');
-      
-//       expect(mockOnNext).toHaveBeenCalledTimes(3);
-//     });
+      const prevButton = screen.getByText('<');
+      const nextButton = screen.getByText('>');
+      expect(prevButton.hasAttribute('disabled')).toBe(true);
+      expect(nextButton.hasAttribute('disabled')).toBe(true);
+    });
 
-//     it('should not navigate beyond last page', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
+    it('should handle itemsPerPage greater than items length', () => {
+      render(
+        <Gallery
+          items={mockItems.slice(0, 2)}
+          itemsPerPage={5}
+          updateItemsPerPage={mockUpdateItemsPerPage}
+          onNext={mockOnNext}
+          onPrev={mockOnPrev}
+        />
+      );
 
-//       const nextButton = screen.getByText('>');
-//       const container = document.querySelector('.flex');
+      const prevButton = screen.getByText('<');
+      const nextButton = screen.getByText('>');
+      expect(prevButton.hasAttribute('disabled')).toBe(true);
+      expect(nextButton.hasAttribute('disabled')).toBe(true);
+    });
 
-//       // Кликаем до последней страницы
-//       fireEvent.click(nextButton);
-//       expect(container).toHaveStyle('transform: translateX(-33.3333%)');
-      
-//       // Пытаемся кликнуть еще раз
-//       fireEvent.click(nextButton);
-//       // Позиция не должна измениться
-//       expect(container).toHaveStyle('transform: translateX(-33.3333%)');
-      
-//       // onNext должен быть вызван только при валидных кликах
-//       expect(mockOnNext).toHaveBeenCalledTimes(1);
-//     });
-//   });
-
-//   describe('Navigation - Backward', () => {
-//     it('should navigate to previous page when Prev button is clicked', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const nextButton = screen.getByText('>');
-//       const prevButton = screen.getByText('<');
-//       const container = document.querySelector('.flex');
-
-//       // Сначала переходим на вторую страницу
-//       fireEvent.click(nextButton);
-//       expect(container).toHaveStyle('transform: translateX(-33.3333%)');
-
-//       // Теперь кликаем Prev
-//       fireEvent.click(prevButton);
-//       expect(container).toHaveStyle('transform: translateX(0%)');
-//       expect(mockOnPrev).toHaveBeenCalledTimes(1);
-//     });
-
-//     it('should navigate multiple pages backward', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={2}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const nextButton = screen.getByText('>');
-//       const prevButton = screen.getByText('<');
-//       const container = document.querySelector('.flex');
-
-//       // Переходим на последнюю страницу
-//       fireEvent.click(nextButton); // page 1
-//       fireEvent.click(nextButton); // page 2
-//       expect(container).toHaveStyle('transform: translateX(-100%)');
-
-//       // Возвращаемся назад
-//       fireEvent.click(prevButton);
-//       expect(container).toHaveStyle('transform: translateX(-50%)');
-      
-//       fireEvent.click(prevButton);
-//       expect(container).toHaveStyle('transform: translateX(0%)');
-      
-//       expect(mockOnPrev).toHaveBeenCalledTimes(2);
-//     });
-
-//     it('should not navigate before first page', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const prevButton = screen.getByText('<');
-//       const container = document.querySelector('.flex');
-
-//       // На первой странице Prev disabled
-//       expect(prevButton).toBeDisabled();
-      
-//       // Пытаемся кликнуть Prev
-//       fireEvent.click(prevButton);
-//       // Позиция не должна измениться
-//       expect(container).toHaveStyle('transform: translateX(0%)');
-//       expect(mockOnPrev).not.toHaveBeenCalled();
-//     });
-//   });
-
-//   describe('Resize handling', () => {
-//     it('should call updateItemsPerPage on resize', async () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       // Проверяем, что updateItemsPerPage вызван при монтировании
-//       expect(mockUpdateItemsPerPage).toHaveBeenCalledWith(1200);
-
-//       // Симулируем изменение размера окна
-//       global.dispatchEvent(new Event('resize'));
-
-//       // Ждем, чтобы эффект сработал
-//       await waitFor(() => {
-//         expect(mockUpdateItemsPerPage).toHaveBeenCalledTimes(2);
-//       });
-//     });
-
-//     it('should update itemsPerPage when container width changes', () => {
-//       const { rerender } = render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       expect(mockUpdateItemsPerPage).toHaveBeenCalledWith(1200);
-
-//       // Мокаем новую ширину
-//       Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
-//         configurable: true,
-//         value: 768,
-//       });
-
-//       // Перерендериваем с новыми пропсами
-//       rerender(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={2}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       // Проверяем, что updateItemsPerPage вызван с новой шириной
-//       expect(mockUpdateItemsPerPage).toHaveBeenCalledWith(768);
-//     });
-
-//     it('should clean up resize event listener on unmount', () => {
-//       const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
-      
-//       const { unmount } = render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       unmount();
-      
-//       expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-//     });
-//   });
-
-//   describe('Edge cases', () => {
-//     it('should handle empty items array', () => {
-//       render(
-//         <Gallery
-//           items={[]}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const container = document.querySelector('.flex');
-//       expect(container?.children).toHaveLength(0);
-      
-//       const prevButton = screen.getByText('<');
-//       const nextButton = screen.getByText('>');
-//       expect(prevButton).toBeDisabled();
-//       expect(nextButton).toBeDisabled();
-//     });
-
-//     it('should handle single item', () => {
-//       const singleItem: GalleryItem[] = [
-//         { id: '1', content: <div>Single Item</div> },
-//       ];
-
-//       render(
-//         <Gallery
-//           items={singleItem}
-//           itemsPerPage={1}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       expect(screen.getByText('Single Item')).toBeInTheDocument();
-      
-//       const prevButton = screen.getByText('<');
-//       const nextButton = screen.getByText('>');
-//       expect(prevButton).toBeDisabled();
-//       expect(nextButton).toBeDisabled();
-//     });
-
-//     it('should handle itemsPerPage greater than items length', () => {
-//       render(
-//         <Gallery
-//           items={mockItems.slice(0, 2)}
-//           itemsPerPage={5}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const prevButton = screen.getByText('<');
-//       const nextButton = screen.getByText('>');
-//       expect(prevButton).toBeDisabled();
-//       expect(nextButton).toBeDisabled();
-//     });
-
-//     it('should render items with React nodes as content', () => {
-//       const itemsWithComplexContent: GalleryItem[] = [
-//         { id: '1', content: <div><h1>Title</h1><p>Description</p></div> },
-//         { id: '2', content: <button>Click me</button> },
-//       ];
-
-//       render(
-//         <Gallery
-//           items={itemsWithComplexContent}
-//           itemsPerPage={1}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       expect(screen.getByText('Title')).toBeInTheDocument();
-//       expect(screen.getByText('Description')).toBeInTheDocument();
-//       expect(screen.getByText('Click me')).toBeInTheDocument();
-//     });
-//   });
-
-//   describe('Callbacks', () => {
-//     it('should call onNext when navigating forward', () => {
-//       render(
-//         <Gallery
-//           items={mockItems}
-//           itemsPerPage={3}
-//           updateItemsPerPage={mockUpdateItemsPerPage}
-//           onNext={mockOnNext}
-//           onPrev={mockOnPrev}
-//         />
-//       );
-
-//       const nextButton = screen.getByText('>');
-      
-//       fireEvent.click(nextButton);
-//       expect(mockOnNext).toHaveBeenCalledTimes(1);
-      
-//       fireEvent.click(nextButton);
-//       expect(mockOnNext).toHaveBeenCalledTimes(2);
-//     });
-
-//     // it('should call onPrev when navigating backward', () => {
-//     //   render(
-//     //     <Gallery
-//     //       items={mockItems}
-//     //       itemsPerPage={3}
-//     //       updateItemsPerPage={mockUpdateItemsPerPage}
-//     //       onNext={mockOnNext}
-//     //       onPrev={mockOnPrev}
-//     //     />
-//     //   );
-
-//     //   const nextButton = screen.getByText('>');
-//     //   const prevButton = screen.getByText('<');
-      
-//     //   // Сначала переходим вперед
-//     //   fireEvent.click(nextButton);
-      
-//     //   // Теперь назад
-//     //   fireEvent.click(prevButton);
-//     //   expect(mockOnPrev).toHaveBeenCalledTimes(1);
-      
-//     //   fireEvent.click(prevButton);
-//     //   expect(mockOnPrev).toHaveBeenCalledTimes(1); // Не вызывается, так как на первой странице
-//     // });
-
-//     // it('should not call onNext when navigation is disabled', () => {
-//     //   render(
-//     //     <Gallery
-//     //       items={mockItems.slice(0, 3)}
-//     //       itemsPerPage={3}
-//     //       updateItemsPerPage={mockUpdateItemsPerPage}
-//     //       onNext={mockOnNext}
-//     //       onPrev={mockOnPrev}
-//     //     />
-//     //   );
-
-//     //   const nextButton = screen.getByText('>');
-//     //   expect(nextButton).toBeDisabled();
-      
-//     //   fireEvent.click(nextButton);
-//     //   expect(mockOnNext).not.toHaveBeenCalled();
-//     // });
-//   });
+  });
 });
