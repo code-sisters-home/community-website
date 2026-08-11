@@ -14,6 +14,7 @@ export const Navbar: FC = () => {
   const navigation = [
     { label: "Главная", value: "/" },
     { label: "О нас", value: "/about" },
+    { label: "Гайд", value: "/guide" },
     { label: "ЧаВо", value: "/faq" },
     { label: "Блог", value: "/blog" },
     {
