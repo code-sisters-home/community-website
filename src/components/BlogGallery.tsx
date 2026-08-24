@@ -4,8 +4,7 @@ import { fetchPosts, Post } from "@/utils/fetchPosts";
 import { Gallery, GalleryItem } from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
-import { Markdown } from "@/components/Markdown";
-import { DotSeparator } from "@/components/DotSeparator";
+import { DotSeparatorIcon } from "@/components/icons/DotSeparatorIcon";
 import { useRef as useDebounceRef } from "react";
 
 const ClampedMarkdown: React.FC<{
@@ -228,7 +227,7 @@ export const BlogGallery = () => {
         </div>
         <p className="text-lg text-gray-700 dark:text-gray-400 mt-auto">
           {post.data.author}
-          <DotSeparator />
+          <DotSeparatorIcon />
           {new Date(post.data.date).toLocaleDateString("ru-RU")}
         </p>
       </>

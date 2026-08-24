@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "@/components/Container";
 import { Markdown } from "@/components/Markdown";
 import Image from "next/image";
-import adaImg from "../../public/img/Ada_Lovelace_squared.png";
+import adaImg from "@img/Ada_Lovelace_squared.png";
 
 export const About = () => {
   const [aboutContent, setAboutContent] = useState<string>("");
@@ -27,7 +27,6 @@ export const About = () => {
 
   return (
     <Container className="flex flex-col-reverse lg:flex-wrap lg:flex-row max-w-7xl">
-      {/* Left section (Text) */}
       <div className="flex items-center w-full">
         <div className="max-w-7xl">
           {aboutContent.length > 0 ? (
@@ -36,19 +35,22 @@ export const About = () => {
                 <span className="purple">O нас</span>
               </h1>
               <div className="basic my-6 widget">
-                {/* Image in the top-right corner */}
+                {/* Image with optimized loading */}
                 <Image
                   src={adaImg}
                   alt="Ada Image"
-                  width="500"
-                  height="500"
-                  className="rounded-full w-full lg:w-1/3 object-cover p-6 lg:float-right" // mr-20 mt-20 - Ensure image floats and has some margin
+                  width={500}
+                  height={500}
+                  className="rounded-full w-full lg:w-1/3 object-cover p-6 lg:float-right"
+                  priority // Вместо fetchpriority для next/image
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  loading="eager" // Явно указываем eager загрузку
                 />
                 <Markdown content={aboutContent} />
               </div>
             </>
           ) : (
-            <div className="text-[40px]">Загрузка постов...</div> // Или другой лоадер
+            <div className="text-[40px]">Загрузка постов...</div>
           )}
         </div>
       </div>
