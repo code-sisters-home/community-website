@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
+import remarkGfm from "remark-gfm";
 
 export const slugifyHeading = (text: string) =>
   text
@@ -106,12 +107,42 @@ const createComponents = () => ({
   img: ({ node, ...props }: any) => (
     <Image className="my-6 h-auto max-w-full rounded-lg" {...props} alt="" />
   ),
+
+  // 👇 Новые компоненты для таблиц
+  table: ({ node, ...props }: any) => (
+    <div className="my-6 w-full overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+      <table className="w-full border-collapse text-sm" {...props} />
+    </div>
+  ),
+  thead: ({ node, ...props }: any) => (
+    <thead className="bg-zinc-50 dark:bg-zinc-900" {...props} />
+  ),
+  tbody: ({ node, ...props }: any) => (
+    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800" {...props} />
+  ),
+  tr: ({ node, ...props }: any) => (
+    <tr className="border-b border-zinc-200 last:border-0 dark:border-zinc-800" {...props} />
+  ),
+  th: ({ node, ...props }: any) => (
+    <th
+      className="px-4 py-2.5 text-left font-semibold text-zinc-900 dark:text-zinc-100"
+      {...props}
+    />
+  ),
+  td: ({ node, ...props }: any) => (
+    <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300" {...props} />
+  ),
 });
 
 export const Markdown = ({ content }: { content: string }) => {
   return (
     <div className="mdx-content max-w-none text-base">
-      <ReactMarkdown components={createComponents()}>{content}</ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={createComponents()}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 };
