@@ -38,7 +38,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
     "react-lite-yt-embed": "^1.2.7",
-    "react-markdown": "^9.0.3"
+    "react-markdown": "^9.0.3",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.0",
